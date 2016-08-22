@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
+    <script src="../node_modules/orange/dist/orange.js"></script>
+    <script src="../node_modules/views/dist/views.min.js"></script>
+    <script src="../node_modules/collection/dist/collection.js"></script>
+    <script src="../dist/views.form.js"></script>
+
+    
+</head>
+
+<body>
+    <form id="form" name="form">
+        <div class="field">
+            <label calss="field-label">Name</label>
+            <input type="text" name="name" error="Du skal udfylde navn" required validate-min="10" />
+        </div>
+        <div class="field">
+            <label class="field-label">Age</label>
+            <input type="number" name="age" validate-min="10" />
+        </div>
+        <div class="field">
+            <label>Test</label>
+            <input name="bjorn"  validate-match="name" required />
+        </div>
+        <div class="field">
+            <label>Url</label>
+            <input name="url"  validate-url required />
+        </div>
+        <div class="field">
+            <textarea style="resize:vertical;" name="text" autosize></textarea>
+        </div>
+
+    </form>
+    <button id="button">ok</button>
+    <script>
+        
+        var form = new views.form.Form({
+            el: document.querySelector('#form'),
+            createHelpAreas: true,
+            validateOnChange: true
+        });
+        
+        form.model = new collection.Model({
+            name: "Hello"
+        });
+
+        form.render()
+
+        var b = document.querySelector('#button');
+        b.addEventListener('click', function () {
+            let v = form.validate();
+            console.log(v)
+        });
+
+        form.model.set('url', 'http://localhost');
+
+        form.model.on('change', function () {
+            console.log(form.model.toJSON());
+        })
+        
+        console.log(form)
+    </script>
+</body>
+
+</html>
