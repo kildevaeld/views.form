@@ -66,6 +66,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.editor = define_1.editor;
 	var editor_1 = __webpack_require__(5);
 	exports.BaseEditor = editor_1.BaseEditor;
+	exports.BaseLayoutEditor = editor_1.BaseLayoutEditor;
 	var field_1 = __webpack_require__(3);
 	exports.Field = field_1.Field;
 	__export(__webpack_require__(7));
@@ -521,6 +522,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(views_1.View);
 
 	exports.BaseEditor = BaseEditor;
+
+	var BaseLayoutEditor = function (_views_1$View2) {
+	    _inherits(BaseLayoutEditor, _views_1$View2);
+
+	    function BaseLayoutEditor() {
+	        _classCallCheck(this, BaseLayoutEditor);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseLayoutEditor).apply(this, arguments));
+	    }
+
+	    _createClass(BaseLayoutEditor, [{
+	        key: "validate",
+	        value: function validate(form) {
+	            return validator_1.validate(form, this, this.value);
+	        }
+	    }, {
+	        key: "name",
+	        get: function get() {
+	            return this.el.getAttribute('name');
+	        }
+	    }, {
+	        key: "value",
+	        get: function get() {
+	            return this.getValue();
+	        },
+	        set: function set(value) {
+	            if (orange_1.equal(value, this.getValue())) return;
+	            this.setValue(value);
+	        }
+	    }]);
+
+	    return BaseLayoutEditor;
+	}(views_1.View);
+
+	exports.BaseLayoutEditor = BaseLayoutEditor;
 	var Editor = function (_BaseEditor) {
 	    _inherits(Editor, _BaseEditor);
 

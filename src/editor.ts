@@ -45,6 +45,32 @@ export abstract class BaseEditor<E extends HTMLElement, V> extends View<E> imple
 
 }
 
+export abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
+     public get name() {
+        return this.el.getAttribute('name');
+    }
+
+    public get value(): V {
+        return this.getValue();
+    }
+
+    public set value(value: V) {
+        if (equal(value,this.getValue())) return;
+        this.setValue(value);
+    }
+
+    
+    public abstract clear();
+    
+    public validate(form: Form): ValidateErrors {
+        return validate(form, this, this.value);
+    }
+    
+    
+    protected abstract getValue(): V;
+    protected abstract setValue(value:V);   
+}
+
 @attributes({
     tagName: 'input',
     events: {
