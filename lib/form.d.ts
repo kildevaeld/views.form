@@ -20,6 +20,7 @@ export declare class Form extends View<HTMLFormElement> {
     private _setValue(model);
     private _renderFields();
     private _onModelValueChange(model);
-    private _onFieldValueChange(field);
+    private _onFieldValueChanged(field, ...args);
+    private _onFieldEventTriggered(event, field, ...args);
     destroy(): any;
 }

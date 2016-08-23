@@ -42,6 +42,10 @@
             createHelpAreas: true,
             validateOnChange: true
         });
+
+        form.on('all', function (e) {
+            //console.log(e)
+        })
         
         form.model = new collection.Model({
             name: "Hello"
@@ -55,10 +59,10 @@
             console.log(v)
         });
 
-        form.model.set('url', 'http://localhost');
+        //form.model.set('url', 'http://localhost');
 
         form.model.on('change', function () {
-            console.log(form.model.toJSON());
+            //console.log(form.model.toJSON());
         })
         
         console.log(form)

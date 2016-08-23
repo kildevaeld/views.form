@@ -1,7 +1,7 @@
 
 import {View, ViewOptions, attributes, RenderOptions} from 'views';
 import {Form} from './form';
-import {extend, createElement, addClass, removeClass, Html} from 'orange';
+import {extend, createElement, addClass, removeClass, Html, callFunc} from 'orange';
 import {IEditor, Editor, IEditorOptions} from './editor';
 import {getEditor} from './define';
 import {ValidateErrors} from './validator'
@@ -54,7 +54,17 @@ export class Field extends View<HTMLDivElement> {
 
         this._editor = editor;
 
+        if (editor == null) {
+            return;
+        }
+
         this.listenTo(editor, 'change', this._onEditorChange);
+        /*this.listenTo(editor, 'all', (event:string, ...args:any[]) => {
+            if (event == 'change') return;
+            args = (args || []);
+            args.unshift(this);
+            this.triggerMethod(event, ...args);
+        })*/
     }
 
     get editor(): IEditor {

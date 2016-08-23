@@ -144,6 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "setModel",
 	        value: function setModel(model) {
+	            if (model === this.model) return;
 	            _get(Object.getPrototypeOf(Form.prototype), "setModel", this).call(this, model);
 	            this._setValue(model);
 	            this.listenTo(model, 'change', this._onModelValueChange);
@@ -177,7 +178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (model.get(m.name) !== undefined) {
 	                        m.editor.value = model.get(m.name);
 	                    } else {
-	                        _this2.model.set(m.name, m.editor.value);
+	                        _this2.model.set(m.name, m.editor.value, { silent: true });
 	                    }
 	                });
 	            }
@@ -203,7 +204,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        createHelpArea: this.options.createHelpAreas || false
 	                    });
 	                    this._fields.push(field);
-	                    this.listenTo(field, 'change', this._onFieldValueChange);
+	                    //this.listenTo(field, 'all', this._onFieldEventTriggered);
+	                    this.listenTo(field, 'change', this._onFieldValueChanged);
 	                } catch (e) {
 	                    errors.push(e);
 	                }
@@ -227,8 +229,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }, {
-	        key: "_onFieldValueChange",
-	        value: function _onFieldValueChange(field) {
+	        key: "_onFieldValueChanged",
+	        value: function _onFieldValueChanged(field) {
 	            this.trigger('change');
 	            if (this.options.validateOnChange) {
 	                if (field.validate()) {
@@ -237,6 +239,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ;
 	            }
 	            this.model.set(field.name, field.editor.value);
+	        }
+	    }, {
+	        key: "_onFieldEventTriggered",
+	        value: function _onFieldEventTriggered(event, field) {
+	            console.log(event);
+	            if (event === "change") {
+	                this.trigger('change');
+	                if (this.options.validateOnChange) {
+	                    if (field.validate()) {
+	                        return;
+	                    }
+	                    ;
+	                }
+	                this.model.set(field.name, field.editor.value);
+	            }
+
+	            for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	                args[_key - 2] = arguments[_key];
+	            }
+
+	            this.triggerMethod.apply(this, ['field:' + event, field].concat(args));
 	        }
 	    }, {
 	        key: "destroy",
@@ -425,7 +448,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this._editor.destroy();
 	            }
 	            this._editor = editor;
+	            if (editor == null) {
+	                return;
+	            }
 	            this.listenTo(editor, 'change', this._onEditorChange);
+	            /*this.listenTo(editor, 'all', (event:string, ...args:any[]) => {
+	                if (event == 'change') return;
+	                args = (args || []);
+	                args.unshift(this);
+	                this.triggerMethod(event, ...args);
+	            })*/
 	        },
 	        get: function get() {
 	            return this._editor;
@@ -498,6 +530,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(BaseEditor, [{
+	        key: "clear",
+	        value: function clear() {
+	            this.triggerMethod('before:clear');
+	            this.setValue(null);
+	            this.triggerMethod('clear');
+	        }
+	    }, {
 	        key: "validate",
 	        value: function validate(form) {
 	            return validator_1.validate(form, this, this.value);
@@ -513,6 +552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.getValue();
 	        },
 	        set: function set(value) {
+	            console.log(orange_1.equal(value, this.getValue()), this.name);
 	            if (orange_1.equal(value, this.getValue())) return;
 	            this.setValue(value);
 	        }
@@ -533,6 +573,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(BaseLayoutEditor, [{
+	        key: "clear",
+	        value: function clear() {
+	            this.triggerMethod('before:clear');
+	            this.setValue(null);
+	            this.triggerMethod('clear');
+	        }
+	    }, {
 	        key: "validate",
 	        value: function validate(form) {
 	            return validator_1.validate(form, this, this.value);
@@ -549,7 +596,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        set: function set(value) {
 	            if (orange_1.equal(value, this.getValue())) return;
+	            this.triggerMethod('before:set:value', value);
 	            this.setValue(value);
+	            this.triggerMethod('set:value', value);
 	        }
 	    }]);
 
@@ -575,11 +624,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "getValue",
 	        value: function getValue() {
 	            return utils_1.getValue(this.el);
-	        }
-	    }, {
-	        key: "clear",
-	        value: function clear() {
-	            utils_1.setValue(this.el, '');
 	        }
 	    }, {
 	        key: "_onKeyPress",
@@ -1296,11 +1340,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "getValue",
 	        value: function getValue() {
 	            return this.el.value;
-	        }
-	    }, {
-	        key: "clear",
-	        value: function clear() {
-	            this.el.textContent = "";
 	        }
 	    }, {
 	        key: "destroy",

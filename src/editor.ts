@@ -27,12 +27,17 @@ export abstract class BaseEditor<E extends HTMLElement, V> extends View<E> imple
     }
 
     public set value(value: V) {
+        console.log(equal(value,this.getValue()), this.name)
         if (equal(value,this.getValue())) return;
         this.setValue(value);
     }
 
     
-    public abstract clear();
+   public clear() {
+        this.triggerMethod('before:clear');
+        this.setValue(null);
+        this.triggerMethod('clear');
+    }
     
     public validate(form: Form): ValidateErrors {
         return validate(form, this, this.value);
@@ -56,11 +61,17 @@ export abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E>
 
     public set value(value: V) {
         if (equal(value,this.getValue())) return;
+        this.triggerMethod('before:set:value', value);
         this.setValue(value);
+        this.triggerMethod('set:value', value);
     }
 
     
-    public abstract clear();
+    public clear() {
+        this.triggerMethod('before:clear');
+        this.setValue(null);
+        this.triggerMethod('clear');
+    }
     
     public validate(form: Form): ValidateErrors {
         return validate(form, this, this.value);
@@ -93,9 +104,6 @@ export class Editor<E extends HTMLElement> extends BaseEditor<E, any> implements
         return getValue(this.el)
     }
 
-    public clear() {
-        setValue(this.el, '');
-    }
     
     protected _onKeyPress(e:KeyboardEvent) {
         this._prev = this.getValue();

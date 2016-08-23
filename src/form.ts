@@ -65,8 +65,13 @@ export class Form extends View<HTMLFormElement> {
     }
 
     setModel(model: IModel) {
+        
+        if (model === this.model) return;
+
         super.setModel(model);
         this._setValue(model)
+
+
 
         this.listenTo(model, 'change', this._onModelValueChange);
 
@@ -88,7 +93,7 @@ export class Form extends View<HTMLFormElement> {
                 if (model.get(m.name) !== undefined) {
                     m.editor.value = model.get(m.name);
                 } else {
-                    this.model.set(m.name, m.editor.value);
+                    (<any>this.model).set(m.name, m.editor.value, {silent: true});
                 }
             })
 
@@ -118,7 +123,8 @@ export class Form extends View<HTMLFormElement> {
                 });
                 this._fields.push(field);
 
-                this.listenTo(field, 'change', this._onFieldValueChange);
+                //this.listenTo(field, 'all', this._onFieldEventTriggered);
+                this.listenTo(field, 'change', this._onFieldValueChanged);
 
             } catch (e) {
                 errors.push(e);
@@ -145,17 +151,32 @@ export class Form extends View<HTMLFormElement> {
         }
     }
 
-    private _onFieldValueChange (field: Field) {
-        this.trigger('change');
+    private _onFieldValueChanged (field: Field, ...args:any[]) {
+       
+        this.trigger('change')
+            if (this.options.validateOnChange) {
+                if (field.validate()) {
+                    return;
+                };   
+            }
+            this.model.set(field.name, field.editor.value);
 
-        if (this.options.validateOnChange) {
-            if (field.validate()) {
-                return;
-            };
-            
+    }
+
+
+    private _onFieldEventTriggered (event: string, field: Field, ...args:any[]) {
+        console.log(event);
+        if (event === "change") {
+            this.trigger('change')
+            if (this.options.validateOnChange) {
+                if (field.validate()) {
+                    return;
+                };   
+            }
+            this.model.set(field.name, field.editor.value);
         }
 
-        this.model.set(field.name, field.editor.value);
+        this.triggerMethod('field:' + event, field, ...args);
 
     }
 

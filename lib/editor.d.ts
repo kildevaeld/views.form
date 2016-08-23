@@ -13,7 +13,7 @@ export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<
     form: Form;
     name: string;
     value: V;
-    abstract clear(): any;
+    clear(): void;
     validate(form: Form): ValidateErrors;
     protected abstract getValue(): V;
     protected abstract setValue(value: V): any;
@@ -21,7 +21,7 @@ export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<
 export declare abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
     name: string;
     value: V;
-    abstract clear(): any;
+    clear(): void;
     validate(form: Form): ValidateErrors;
     protected abstract getValue(): V;
     protected abstract setValue(value: V): any;
@@ -31,7 +31,6 @@ export declare class Editor<E extends HTMLElement> extends BaseEditor<E, any> im
     name: string;
     protected setValue(value: any): void;
     protected getValue(): any;
-    clear(): void;
     protected _onKeyPress(e: KeyboardEvent): void;
     protected _onChange(e: KeyboardEvent): void;
 }

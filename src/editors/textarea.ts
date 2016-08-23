@@ -205,10 +205,6 @@ class TextArea extends BaseEditor<HTMLTextAreaElement, string> {
         return this.el.value;
     }
 
-    clear () {
-        this.el.textContent = "";
-    }
-
     destroy() {
         if (this._autoSizer) {
             this._autoSizer.destroy();
