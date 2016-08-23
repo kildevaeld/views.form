@@ -1,6 +1,6 @@
 {
   "name": "views.form",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "babel-preset-es2015": "^6.13.2",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
     "gulp-uglify": "^2.0.0",
     "merge2": "^1.0.2",

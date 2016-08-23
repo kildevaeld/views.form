@@ -5,7 +5,10 @@ const gulp = require('gulp'),
     webpack = require('webpack-stream'),
     merge = require('merge2'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    
+    plumber = require('gulp-plumber'),
+    sourcemaps = require('gulp-sourcemaps');
 
 
 const project = tsc.createProject('./tsconfig.json');
@@ -24,15 +27,20 @@ gulp.task('typescript', () => {
 
 gulp.task('uglify', ['bundle'] ,() => {
     return gulp.src('./dist/views.form.js')
-    .pipe(uglify())
+    .pipe(sourcemaps.init())
+    .pipe(plumber())
+    .pipe(uglify({ preserveComments: 'license' }))
     .pipe(rename('views.form.min.js'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 })
 
 gulp.task('bundle', ['typescript'], () => {
     return gulp.src('./lib/index.js')
+    //.pipe(sourcemaps.init())
+    .pipe(plumber())
     .pipe(webpack({
-        
+        devtool: 'source-map',
         output: {
             libraryTarget: 'umd',
             library: ['views', 'form'],
@@ -50,10 +58,12 @@ gulp.task('bundle', ['typescript'], () => {
             ]
         }
     }))
+
+    //.pipe(sourcemaps.write('dist'))
     .pipe(gulp.dest('dist'))
 });
 
-gulp.task('default', ['typescript', 'uglify']);
+gulp.task('default', ['bundle', 'uglify']);
 
 gulp.task('watch', () => {
     return gulp.watch('./src/**/*.ts', ['bundle']);

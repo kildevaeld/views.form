@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -55,7 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	function __export(m) {
 	    for (var p in m) {
 	        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -77,19 +77,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
 	    var c = arguments.length,
 	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -105,18 +105,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var field_1 = __webpack_require__(3);
 	var Form = function (_views_1$View) {
 	    _inherits(Form, _views_1$View);
-
+	
 	    function Form(options) {
 	        _classCallCheck(this, Form);
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this, options));
-
+	
 	        _this._fields = [];
 	        _this._isRendered = false;
 	        _this._options = options || {};
 	        return _this;
 	    }
-
+	
 	    _createClass(Form, [{
 	        key: "getFieldByName",
 	        value: function getFieldByName(name) {
@@ -129,7 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "render",
 	        value: function render() {
 	            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
+	
 	            this._isRendered = false;
 	            if (!options.silent) this.triggerMethod('before:render');
 	            this.undelegateEvents();
@@ -163,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "_setValue",
 	        value: function _setValue(model) {
 	            var _this2 = this;
-
+	
 	            if (!this._isRendered) {
 	                this.once('render', function () {
 	                    return _this2._setValue(model);
@@ -187,7 +187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "_renderFields",
 	        value: function _renderFields() {
 	            var _this3 = this;
-
+	
 	            this.triggerMethod('before:render:fields');
 	            this._fields.forEach(function (f) {
 	                _this3.stopListening(f);
@@ -254,11 +254,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                this.model.set(field.name, field.editor.value);
 	            }
-
+	
 	            for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
 	                args[_key - 2] = arguments[_key];
 	            }
-
+	
 	            this.triggerMethod.apply(this, ['field:' + event, field].concat(args));
 	        }
 	    }, {
@@ -281,7 +281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return [].concat(this._fields);
 	        }
 	    }]);
-
+	
 	    return Form;
 	}(views_1.View);
 	Form = __decorate([views_1.attributes({
@@ -301,17 +301,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
 	    var c = arguments.length,
 	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -330,25 +330,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Field_1 = void 0;
 	var Field = Field_1 = function (_views_1$View) {
 	    _inherits(Field, _views_1$View);
-
+	
 	    function Field(options) {
 	        _classCallCheck(this, Field);
-
+	
 	        if (options == null) throw new Error('field options required');
 	        if (options.form == null) throw new Error('form required');
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Field).call(this, options));
-
+	
 	        _this._options = options;
 	        _this._form = options.form;
 	        return _this;
 	    }
-
+	
 	    _createClass(Field, [{
 	        key: "render",
 	        value: function render() {
 	            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
+	
 	            if (!options.silent) this.triggerMethod('before:render');
 	            this.undelegateEvents();
 	            this.renderTemplate(this.getTemplateData());
@@ -473,7 +473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return new Field_1(o);
 	        }
 	    }]);
-
+	
 	    return Field;
 	}(views_1.View);
 	Field = Field_1 = __decorate([views_1.attributes({
@@ -493,17 +493,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
 	    var c = arguments.length,
 	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -519,16 +519,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var utils_1 = __webpack_require__(6);
 	var validator_1 = __webpack_require__(7);
 	var orange_1 = __webpack_require__(4);
-
+	
 	var BaseEditor = function (_views_1$View) {
 	    _inherits(BaseEditor, _views_1$View);
-
+	
 	    function BaseEditor() {
 	        _classCallCheck(this, BaseEditor);
-
+	
 	        return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseEditor).apply(this, arguments));
 	    }
-
+	
 	    _createClass(BaseEditor, [{
 	        key: "clear",
 	        value: function clear() {
@@ -557,21 +557,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.setValue(value);
 	        }
 	    }]);
-
+	
 	    return BaseEditor;
 	}(views_1.View);
-
+	
 	exports.BaseEditor = BaseEditor;
-
+	
 	var BaseLayoutEditor = function (_views_1$View2) {
 	    _inherits(BaseLayoutEditor, _views_1$View2);
-
+	
 	    function BaseLayoutEditor() {
 	        _classCallCheck(this, BaseLayoutEditor);
-
+	
 	        return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseLayoutEditor).apply(this, arguments));
 	    }
-
+	
 	    _createClass(BaseLayoutEditor, [{
 	        key: "clear",
 	        value: function clear() {
@@ -601,20 +601,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.triggerMethod('set:value', value);
 	        }
 	    }]);
-
+	
 	    return BaseLayoutEditor;
 	}(views_1.View);
-
+	
 	exports.BaseLayoutEditor = BaseLayoutEditor;
 	var Editor = function (_BaseEditor) {
 	    _inherits(Editor, _BaseEditor);
-
+	
 	    function Editor() {
 	        _classCallCheck(this, Editor);
-
+	
 	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Editor).apply(this, arguments));
 	    }
-
+	
 	    _createClass(Editor, [{
 	        key: "setValue",
 	        value: function setValue(value) {
@@ -644,7 +644,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.el.getAttribute('name');
 	        }
 	    }]);
-
+	
 	    return Editor;
 	}(BaseEditor);
 	Editor = __decorate([views_1.attributes({
@@ -661,7 +661,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	var start = "<%",
 	    end = "%>",
 	    path = "[a-z0-9_$][\\.a-z0-9_]*",
@@ -670,7 +670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    undef = undefined;
 	function template(template, data) {
 	    var throwOnNotFound = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
-
+	
 	    return template.replace(pattern, function (tag, token) {
 	        var path = token.split("."),
 	            len = path.length,
@@ -748,15 +748,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	var utils_1 = __webpack_require__(6);
 	var orange_1 = __webpack_require__(4);
 	var validURL = __webpack_require__(8);
@@ -775,7 +775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	function validate(form, editor, value) {
 	    var vals = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
-
+	
 	    var el = editor.el;
 	    var v = get_validations(el),
 	        name = editor.name,
@@ -899,48 +899,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	    validators[name] = fn;
 	}
 	exports.registerValidator = registerValidator;
-
+	
 	var ValidateError = function (_Error) {
 	    _inherits(ValidateError, _Error);
-
+	
 	    function ValidateError(message) {
 	        _classCallCheck(this, ValidateError);
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ValidateError).call(this, message));
-
+	
 	        _this.message = message;
 	        return _this;
 	    }
-
+	
 	    return ValidateError;
 	}(Error);
-
+	
 	exports.ValidateError = ValidateError;
-
+	
 	var ValidateErrors = function (_Error2) {
 	    _inherits(ValidateErrors, _Error2);
-
+	
 	    function ValidateErrors() {
 	        var errors = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-
+	
 	        _classCallCheck(this, ValidateErrors);
-
+	
 	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(ValidateErrors).call(this));
-
+	
 	        _this2.errors = errors;
 	        return _this2;
 	    }
-
+	
 	    _createClass(ValidateErrors, [{
 	        key: 'length',
 	        get: function get() {
 	            return this.errors.length;
 	        }
 	    }]);
-
+	
 	    return ValidateErrors;
 	}(Error);
-
+	
 	exports.ValidateErrors = ValidateErrors;
 
 /***/ },
@@ -949,7 +949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(module) {(function(module) {
 	    'use strict';
-
+	
 	    module.exports.is_uri = is_iri;
 	    module.exports.is_http_uri = is_http_iri;
 	    module.exports.is_https_uri = is_https_iri;
@@ -959,27 +959,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    module.exports.isHttpUri = is_http_iri;
 	    module.exports.isHttpsUri = is_https_iri;
 	    module.exports.isWebUri = is_web_iri;
-
-
+	
+	
 	    // private function
 	    // internal URI spitter method - direct from RFC 3986
 	    var splitUri = function(uri) {
 	        var splitted = uri.match(/(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/);
 	        return splitted;
 	    };
-
+	
 	    function is_iri(value) {
 	        if (!value) {
 	            return;
 	        }
-
+	
 	        // check for illegal characters
 	        if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(value)) return;
-
+	
 	        // check for hex escapes that aren't complete
 	        if (/%[^0-9a-f]/i.test(value)) return;
 	        if (/%[0-9a-f](:?[^0-9a-f]|$)/i.test(value)) return;
-
+	
 	        var splitted = [];
 	        var scheme = '';
 	        var authority = '';
@@ -987,7 +987,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var query = '';
 	        var fragment = '';
 	        var out = '';
-
+	
 	        // from RFC 3986
 	        splitted = splitUri(value);
 	        scheme = splitted[1]; 
@@ -995,10 +995,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        path = splitted[3];
 	        query = splitted[4];
 	        fragment = splitted[5];
-
+	
 	        // scheme and path are required, though the path can be empty
 	        if (!(scheme && scheme.length && path.length >= 0)) return;
-
+	
 	        // if authority is present, the path must be empty or begin with a /
 	        if (authority && authority.length) {
 	            if (!(path.length === 0 || /^\//.test(path))) return;
@@ -1006,34 +1006,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // if authority is not present, the path must not start with //
 	            if (/^\/\//.test(path)) return;
 	        }
-
+	
 	        // scheme must begin with a letter, then consist of letters, digits, +, ., or -
 	        if (!/^[a-z][a-z0-9\+\-\.]*$/.test(scheme.toLowerCase()))  return;
-
+	
 	        // re-assemble the URL per section 5.3 in RFC 3986
 	        out += scheme + ':';
 	        if (authority && authority.length) {
 	            out += '//' + authority;
 	        }
-
+	
 	        out += path;
-
+	
 	        if (query && query.length) {
 	            out += '?' + query;
 	        }
-
+	
 	        if (fragment && fragment.length) {
 	            out += '#' + fragment;
 	        }
-
+	
 	        return out;
 	    }
-
+	
 	    function is_http_iri(value, allowHttps) {
 	        if (!is_iri(value)) {
 	            return;
 	        }
-
+	
 	        var splitted = [];
 	        var scheme = '';
 	        var authority = '';
@@ -1042,7 +1042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var query = '';
 	        var fragment = '';
 	        var out = '';
-
+	
 	        // from RFC 3986
 	        splitted = splitUri(value);
 	        scheme = splitted[1]; 
@@ -1050,27 +1050,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	        path = splitted[3];
 	        query = splitted[4];
 	        fragment = splitted[5];
-
+	
 	        if (!scheme)  return;
-
+	
 	        if(allowHttps) {
 	            if (scheme.toLowerCase() != 'https') return;
 	        } else {
 	            if (scheme.toLowerCase() != 'http') return;
 	        }
-
+	
 	        // fully-qualified URIs must have an authority section that is
 	        // a valid host
 	        if (!authority) {
 	            return;
 	        }
-
+	
 	        // enable port component
 	        if (/:(\d+)$/.test(authority)) {
 	            port = authority.match(/:(\d+)$/)[0];
 	            authority = authority.replace(/:\d+$/, '');
 	        }
-
+	
 	        out += scheme + ':';
 	        out += '//' + authority;
 	        
@@ -1083,24 +1083,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(query && query.length){
 	            out += '?' + query;
 	        }
-
+	
 	        if(fragment && fragment.length){
 	            out += '#' + fragment;
 	        }
 	        
 	        return out;
 	    }
-
+	
 	    function is_https_iri(value) {
 	        return is_http_iri(value, true);
 	    }
-
+	
 	    function is_web_iri(value) {
 	        return (is_http_iri(value) || is_https_iri(value));
 	    }
-
+	
 	})(module);
-
+	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)(module)))
 
 /***/ },
@@ -1124,7 +1124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	var _editors = {};
 	function editor(name) {
 	    return function (target) {
@@ -1145,19 +1145,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
 	    var c = arguments.length,
 	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -1173,17 +1173,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	var editor_1 = __webpack_require__(5);
 	var define_1 = __webpack_require__(10);
 	var views_1 = __webpack_require__(2);
-
+	
 	var AutoSizer = function () {
 	    function AutoSizer(el) {
 	        _classCallCheck(this, AutoSizer);
-
+	
 	        this.el = el;
 	        this._onChange = orange.bind(this._onChange, this);
 	        this._onPageResize = orange.bind(this._onPageResize, this);
 	        this._initInitialSize();
 	    }
-
+	
 	    _createClass(AutoSizer, [{
 	        key: "_onPageResize",
 	        value: function _onPageResize() {
@@ -1296,20 +1296,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            orange.removeEventListener(window, 'resize', this._onPageResize);
 	        }
 	    }]);
-
+	
 	    return AutoSizer;
 	}();
-
+	
 	exports.AutoSizer = AutoSizer;
 	var TextArea = function (_editor_1$BaseEditor) {
 	    _inherits(TextArea, _editor_1$BaseEditor);
-
+	
 	    function TextArea(options) {
 	        _classCallCheck(this, TextArea);
-
+	
 	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TextArea).call(this, options));
 	    }
-
+	
 	    _createClass(TextArea, [{
 	        key: "render",
 	        value: function render(o) {
@@ -1350,7 +1350,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }]);
-
+	
 	    return TextArea;
 	}(editor_1.BaseEditor);
 	TextArea = __decorate([define_1.editor('textarea'), views_1.attributes({
@@ -1372,3 +1372,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
+//# sourceMappingURL=views.form.js.map
