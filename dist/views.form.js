@@ -115,7 +115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this._fields = [];
 	        _this._isRendered = false;
 	        options = options || {};
-	        _this.options = orange_1.extend({}, {
+	        _this._options = orange_1.extend({}, {
 	            createHelpArea: false,
 	            validateOnChange: true,
 	            fieldOptions: {}

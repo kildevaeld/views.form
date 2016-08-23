@@ -29,7 +29,7 @@ export class Form extends View<HTMLFormElement> {
     constructor(options?:FormOptions) {
         super(options);
         options = options||{};
-        this.options = extend({}, {
+        this._options = extend({}, {
             createHelpArea: false,
             validateOnChange: true,
             fieldOptions: {}
