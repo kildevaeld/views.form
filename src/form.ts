@@ -30,7 +30,7 @@ export class Form extends View<HTMLFormElement> {
         super(options);
         options = options||{};
         this._options = extend({}, {
-            createHelpArea: false,
+            createHelpAreas: false,
             validateOnChange: true,
             fieldOptions: {}
         }, options);
@@ -124,7 +124,9 @@ export class Form extends View<HTMLFormElement> {
         for (let i = 0, ii = fields.length; i < ii; i++) {
             
             try {
-                let name = fields[i].getAttribute('name')
+                let e = fields[i].querySelector('[name]');
+                let name = "";
+                if (e) name = e.getAttribute('name');
                 
                 let o = extend({ 
                     createHelpArea: this.options.createHelpAreas||false
@@ -132,10 +134,8 @@ export class Form extends View<HTMLFormElement> {
                     form: this
                 });
 
-                field = Field.createField(<HTMLDivElement>fields[i], {
-                    form: this,
-                    createHelpArea: this.options.createHelpAreas||false
-                });
+
+                field = Field.createField(<HTMLDivElement>fields[i], o);
                 this._fields.push(field);
 
                 //this.listenTo(field, 'all', this._onFieldEventTriggered);

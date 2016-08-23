@@ -116,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this._isRendered = false;
 	        options = options || {};
 	        _this._options = orange_1.extend({}, {
-	            createHelpArea: false,
+	            createHelpAreas: false,
 	            validateOnChange: true,
 	            fieldOptions: {}
 	        }, options);
@@ -205,16 +205,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                field;
 	            for (var i = 0, ii = fields.length; i < ii; i++) {
 	                try {
-	                    var name = fields[i].getAttribute('name');
+	                    var e = fields[i].querySelector('[name]');
+	                    var name = "";
+	                    if (e) name = e.getAttribute('name');
 	                    var o = orange_1.extend({
 	                        createHelpArea: this.options.createHelpAreas || false
 	                    }, this.options.fieldOptions[name] || {}, {
 	                        form: this
 	                    });
-	                    field = field_1.Field.createField(fields[i], {
-	                        form: this,
-	                        createHelpArea: this.options.createHelpAreas || false
-	                    });
+	                    field = field_1.Field.createField(fields[i], o);
 	                    this._fields.push(field);
 	                    //this.listenTo(field, 'all', this._onFieldEventTriggered);
 	                    this.listenTo(field, 'change', this._onFieldValueChanged);
@@ -564,7 +563,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.getValue();
 	        },
 	        set: function set(value) {
-	            console.log(orange_1.equal(value, this.getValue()), this.name);
 	            if (orange_1.equal(value, this.getValue())) return;
 	            this.setValue(value);
 	        }

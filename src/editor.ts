@@ -27,7 +27,6 @@ export abstract class BaseEditor<E extends HTMLElement, V> extends View<E> imple
     }
 
     public set value(value: V) {
-        console.log(equal(value,this.getValue()), this.name)
         if (equal(value,this.getValue())) return;
         this.setValue(value);
     }
@@ -91,6 +90,7 @@ export abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E>
 })
 export class Editor<E extends HTMLElement> extends BaseEditor<E, any> implements IEditor {
     private _prev: any;
+
 
     public get name(): string {
         return this.el.getAttribute('name');
