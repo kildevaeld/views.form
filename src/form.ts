@@ -1,12 +1,14 @@
 
 import {View, attributes, RenderOptions, ViewOptions} from 'views';
-import {Field} from './field';
+import {Field, FieldOptions} from './field';
 import {IModel} from 'collection';
 import {ValidateErrors} from './validator';
+import {extend} from 'orange';
 
 export interface FormOptions extends ViewOptions {
     createHelpAreas?: boolean;
     validateOnChange?: boolean;
+    fieldOptions?: {[key: string]: FieldOptions};
 }
 
 @attributes({
@@ -26,7 +28,12 @@ export class Form extends View<HTMLFormElement> {
 
     constructor(options?:FormOptions) {
         super(options);
-        this._options = options||{};
+        options = options||{};
+        this.options = extend({}, {
+            createHelpArea: false,
+            validateOnChange: true,
+            fieldOptions: {}
+        }, options);
     }
 
     get fields (): Field[] {
@@ -117,6 +124,14 @@ export class Form extends View<HTMLFormElement> {
         for (let i = 0, ii = fields.length; i < ii; i++) {
             
             try {
+                let name = fields[i].getAttribute('name')
+                
+                let o = extend({ 
+                    createHelpArea: this.options.createHelpAreas||false
+                }, this.options.fieldOptions[name]||{}, {
+                    form: this
+                });
+
                 field = Field.createField(<HTMLDivElement>fields[i], {
                     form: this,
                     createHelpArea: this.options.createHelpAreas||false

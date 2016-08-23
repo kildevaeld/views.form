@@ -8,6 +8,7 @@ export interface IEditor extends IDataView {
     validate(form: Form): ValidateErrors;
 }
 export interface IEditorOptions extends ViewOptions {
+    [key: string]: any;
 }
 export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
     form: Form;

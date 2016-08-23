@@ -103,6 +103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var views_1 = __webpack_require__(2);
 	var field_1 = __webpack_require__(3);
+	var orange_1 = __webpack_require__(4);
 	var Form = function (_views_1$View) {
 	    _inherits(Form, _views_1$View);
 	
@@ -113,7 +114,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        _this._fields = [];
 	        _this._isRendered = false;
-	        _this._options = options || {};
+	        options = options || {};
+	        _this.options = orange_1.extend({}, {
+	            createHelpArea: false,
+	            validateOnChange: true,
+	            fieldOptions: {}
+	        }, options);
 	        return _this;
 	    }
 	
@@ -199,6 +205,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                field;
 	            for (var i = 0, ii = fields.length; i < ii; i++) {
 	                try {
+	                    var name = fields[i].getAttribute('name');
+	                    var o = orange_1.extend({
+	                        createHelpArea: this.options.createHelpAreas || false
+	                    }, this.options.fieldOptions[name] || {}, {
+	                        form: this
+	                    });
 	                    field = field_1.Field.createField(fields[i], {
 	                        form: this,
 	                        createHelpArea: this.options.createHelpAreas || false
