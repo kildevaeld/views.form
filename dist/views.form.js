@@ -68,6 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BaseEditor = editor_1.BaseEditor;
 	var field_1 = __webpack_require__(3);
 	exports.Field = field_1.Field;
+	__export(__webpack_require__(7));
 	__webpack_require__(11);
 
 /***/ },
@@ -159,6 +160,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "_setValue",
 	        value: function _setValue(model) {
+	            var _this2 = this;
+
+	            if (!this._isRendered) {
+	                this.once('render', function () {
+	                    return _this2._setValue(model);
+	                });
+	            }
 	            if (model == null) {
 	                this.fields.forEach(function (m) {
 	                    return m.editor.clear();
@@ -167,6 +175,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.fields.forEach(function (m) {
 	                    if (model.get(m.name) !== undefined) {
 	                        m.editor.value = model.get(m.name);
+	                    } else {
+	                        _this2.model.set(m.name, m.editor.value);
 	                    }
 	                });
 	            }
@@ -174,11 +184,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "_renderFields",
 	        value: function _renderFields() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            this.triggerMethod('before:render:fields');
 	            this._fields.forEach(function (f) {
-	                _this2.stopListening(f);
+	                _this3.stopListening(f);
 	                f.destroy();
 	            });
 	            this._fields = [];
