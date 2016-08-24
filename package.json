@@ -25,5 +25,15 @@
     "gulp-uglify": "^2.0.0",
     "merge2": "^1.0.2",
     "webpack-stream": "^3.2.0"
+  },
+  "jspm": {
+    "registry": "github",
+    "format": "cjs",
+    "dependencies": {
+      "collection": "github:kildevaeld/collectionjs",
+      "orange": "github:kildevaeld/orange",
+      "valid-url": "npm:valid-url@1.0.9",
+      "views": "github:kildevaeld/views"
+    }
   }
 }
