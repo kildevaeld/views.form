@@ -1,6 +1,6 @@
 {
   "name": "views.form",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -30,10 +30,10 @@
     "registry": "github",
     "format": "cjs",
     "dependencies": {
-      "collection": "github:kildevaeld/collectionjs",
-      "orange": "github:kildevaeld/orange",
-      "valid-url": "npm:valid-url@1.0.9",
-      "views": "github:kildevaeld/views"
+      "collection": "github:kildevaeld/collectionjs@master",
+      "orange": "github:kildevaeld/orange@master",
+      "valid-url": "npm:valid-url@^1.0.9",
+      "views": "github:kildevaeld/views@master"
     }
   }
 }
