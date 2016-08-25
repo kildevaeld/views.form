@@ -153,7 +153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (model === this.model) return;
 	            _get(Object.getPrototypeOf(Form.prototype), "setModel", this).call(this, model);
 	            this._setValue(model);
-	            this.listenTo(model, 'change', this._onModelValueChange);
+	            if (model != null) this.listenTo(model, 'change', this._onModelValueChange);
 	            return this;
 	        }
 	    }, {

@@ -79,8 +79,8 @@ export class Form extends View<HTMLFormElement> {
         this._setValue(model)
 
 
-
-        this.listenTo(model, 'change', this._onModelValueChange);
+        if (model != null)
+            this.listenTo(model, 'change', this._onModelValueChange);
 
         return this;        
     }
