@@ -4,6 +4,9 @@ import {Field, FieldOptions} from './field';
 import {IModel} from 'collection';
 import {ValidateErrors} from './validator';
 import {extend} from 'orange';
+import * as Debug from 'debug';
+
+const debug = Debug('views:form');
 
 export interface FormOptions extends ViewOptions {
     createHelpAreas?: boolean;
@@ -119,7 +122,7 @@ export class Form extends View<HTMLFormElement> {
         this._fields = [];
 
         let fields = this.el.querySelectorAll('.field');
-       
+        debug('found %i fields', fields.length);
         var errors = [], field;
         for (let i = 0, ii = fields.length; i < ii; i++) {
             
@@ -134,7 +137,7 @@ export class Form extends View<HTMLFormElement> {
                     form: this
                 });
 
-
+                debug('create field: %s', name);
                 field = Field.createField(<HTMLDivElement>fields[i], o);
                 this._fields.push(field);
 

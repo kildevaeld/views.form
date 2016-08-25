@@ -3,7 +3,8 @@ import { IEditor } from './editor';
 export interface Validator {
     (form: Form, value: any, arg: any): any;
 }
-export declare function validate(form: Form, editor: IEditor, value: any, vals?: [Validator, string, string][]): ValidateErrors;
+export declare type ValidatorDef = [Validator, string, string, string];
+export declare function validate(form: Form, editor: IEditor, value: any, vals?: ValidatorDef[]): ValidateErrors;
 export declare module validators {
     function required(name: string, form: Form, value: any, arg: any): boolean;
     function min(name: string, form: Form, value: any, arg: any): boolean;

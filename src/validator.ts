@@ -4,6 +4,9 @@ import {Field} from './field';
 import {Form} from './form';
 import {IEditor} from './editor';
 import {unique, equal} from 'orange';
+import * as Debug from 'debug';
+
+const debug = Debug('views:form:validator');
 
 const validURL = require('valid-url');
 
@@ -18,26 +21,32 @@ function get_validations(el: HTMLElement) {
         // The required validator is getting handled elsewhere
         if (e === 'required') return null;
         let i = el.getAttribute('validate-' + e);
-        if (i != null) return [validators[e], i, messages[e]||"invalid"];
+        if (i != null) return [validators[e], i, messages[e]||"invalid", e];
         return null;
     }).filter(e => e !== null);
     
     return v;
 }
+// Validator, args, message, validatorName
+export type ValidatorDef = [Validator, string, string, string];  
 
-export function validate(form: Form, editor: IEditor, value:any, vals:[Validator, string, string][] = []) {
+export function validate(form: Form, editor: IEditor, value:any, vals:ValidatorDef[] = []) {
 
     let el = editor.el;
 
     let v = get_validations(el),
         name = editor.name,//el.getAttribute('name'),
-        required = el.getAttribute('required')||el.getAttribute('validate-required'),
         errors = [];
+
+    let required = el.getAttribute('required');
+    if (required == null) required = el.getAttribute('validate-required');
 
     v = unique(v.concat(vals));
 
     if (required != null) {
+        debug("running 'required' validator on %s", name);
         if (!validators.required(name, form, value, null)) {
+            debug("'required' validator failed on %s", name);
             return new ValidateErrors([new ValidateError(template(messages.required, {
                 name: name,
                 label: name,
@@ -51,7 +60,9 @@ export function validate(form: Form, editor: IEditor, value:any, vals:[Validator
     }
 
     for (let i = 0, ii = v.length; i < ii; i++) {
+        debug("running '%s' validator on %s", v[i][3], name);
         if (!v[i][0](name, form, value, v[i][1])) {
+            debug("'%s' validator failed on %s", v[i][3], name);
             let e = new ValidateError(template(v[i][2], {
                 name: name,
                 value: value,

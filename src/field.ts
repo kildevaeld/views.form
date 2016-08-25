@@ -5,6 +5,9 @@ import {extend, createElement, addClass, removeClass, Html, callFunc} from 'oran
 import {IEditor, Editor, IEditorOptions} from './editor';
 import {getEditor} from './define';
 import {ValidateErrors} from './validator'
+import * as Debug from 'debug';
+
+const debug = Debug('views:form:field');
 
 export interface FieldOptions extends ViewOptions {
     editor?: HTMLElement;
@@ -105,17 +108,25 @@ export class Field extends View<HTMLDivElement> {
             let o = extend({}, this._options.editorOptions||{}, {
                 el: el
             });
-
+            let name = el.getAttribute('name');
             if (editorType) {
                 let editor = getEditor(editorType, o);
-                if (editor) this.editor = editor;
+                if (editor) {
+                    debug('%s: found custom editor type: %s', name, editorType);
+                    this.editor = editor;
+                }
             }
 
             if (this.editor == null) {
                 let editor = getEditor(el.nodeName.toLowerCase(),o);
                 
-                if (editor) this.editor = editor;
-                else this.editor = new Editor(o);
+                if (editor) {
+                    debug('%s: found custom editor type from tag: %s', name, el.nodeName.toLowerCase());
+                    this.editor = editor;
+                } else {
+                    this.editor = new Editor(o);
+                }
+                
             }  
         }
 
@@ -137,7 +148,7 @@ export class Field extends View<HTMLDivElement> {
         if (helpArea) {
             return;
         }
-
+        debug('%s: creating help area', this.name);
         this.triggerMethod('before:helparea');
         helpArea = createElement<HTMLDivElement>("div", {
             class: "form-field-helparea"

@@ -13,6 +13,7 @@
         
     },
     "files": [
+        "typings/index.d.ts",
         "src/index.ts",
         "src/form.ts",
         "src/field.ts",
