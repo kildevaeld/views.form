@@ -229,7 +229,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                m.render();
 	            });
 	            if (errors.length) {
-	                console.log(errors);
 	                this.triggerMethod('render:fields:error', errors);
 	            }
 	            this.triggerMethod('render:fields');
@@ -362,6 +361,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(Field, [{
+	        key: "clear",
+	        value: function clear() {
+	            if (this.editor) this.editor.clear();
+	            orange_1.removeClass(this.el, 'has-success has-error');
+	            orange_1.Html.query('.form-field-helparea').html('');
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -466,6 +472,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return label.textContent;
 	            }
 	            return this.name;
+	        }
+	    }, {
+	        key: "value",
+	        get: function get() {
+	            if (this.editor) return this.editor.value;
+	            return null;
+	        },
+	        set: function set(value) {
+	            if (this.editor) this.editor.value = value;
 	        }
 	    }, {
 	        key: "editor",
@@ -735,7 +750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return node.value || "";
 	        } else if (isInput) {
 	            var _value = node.value || "";
-	            if (node.type.toLowerCase() === 'number') {
+	            if (node.type && node.type.toLowerCase() === 'number') {
 	                _value = parseInt(_value);
 	                _value = isNaN(_value) ? 0 : _value;
 	            }

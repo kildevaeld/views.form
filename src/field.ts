@@ -21,7 +21,7 @@ export interface FieldOptions extends ViewOptions {
     tagName: 'div',
     className: 'form-field'
 })
-export class Field extends View<HTMLDivElement> {
+export class Field extends View<HTMLDivElement> implements IEditor {
     static createField(el: HTMLDivElement, options?:FieldOptions): Field {
         let elm = <HTMLElement>el.querySelector('[name]')
         if (elm == null) throw new Error("field doest not contain an element");
@@ -47,6 +47,21 @@ export class Field extends View<HTMLDivElement> {
             return label.textContent;
         }
         return this.name;
+    }
+
+    get value(): any {
+        if (this.editor) return this.editor.value;
+        return null;
+    }
+
+    set value(value:any) {
+        if (this.editor) this.editor.value = value;
+    }
+
+    clear() {
+        if (this.editor) this.editor.clear();
+        removeClass(this.el, 'has-success has-error');
+        Html.query('.form-field-helparea').html('');
     }
 
     set editor(editor: IEditor) {

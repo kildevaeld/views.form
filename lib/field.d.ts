@@ -9,13 +9,15 @@ export interface FieldOptions extends ViewOptions {
     editorOptions?: IEditorOptions;
     createHelpArea?: boolean;
 }
-export declare class Field extends View<HTMLDivElement> {
+export declare class Field extends View<HTMLDivElement> implements IEditor {
     static createField(el: HTMLDivElement, options?: FieldOptions): Field;
     private _form;
     private _editor;
     _options: FieldOptions;
     name: string;
     label: string;
+    value: any;
+    clear(): void;
     editor: IEditor;
     constructor(options?: FieldOptions);
     render(options?: RenderOptions): this;

@@ -153,7 +153,6 @@ export class Form extends View<HTMLFormElement> {
         this._fields.forEach( m => { m.render() });
 
         if (errors.length) {
-            console.log(errors)
             this.triggerMethod('render:fields:error', errors);
         }
 

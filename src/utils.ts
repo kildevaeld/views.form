@@ -52,7 +52,7 @@ export function getValue(el: HTMLElement, value?: any): any {
             return node.value || "";
         } else if (isInput) {
             let value = node.value || "";
-            if (node.type.toLowerCase() === 'number') {
+            if (node.type && node.type.toLowerCase() === 'number') {
                 value = <any>parseInt(value)
                 value = <any>(isNaN(<any>value) ? 0 : value)
             }
