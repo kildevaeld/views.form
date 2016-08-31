@@ -92,6 +92,11 @@ export class Form extends View<HTMLFormElement> {
         return this.fields.map( m => m.validate()).filter( m => m != null);
     }
 
+    clear() {
+        if (!this._fields) return this;
+        this._fields.forEach( f => f.clear());
+    }
+
     private _setValue(model:IModel) {
         if (!this._isRendered) {
             this.once('render', () => this._setValue(model))
@@ -110,6 +115,8 @@ export class Form extends View<HTMLFormElement> {
         }
         
     }
+
+
 
     private _renderFields() {
         

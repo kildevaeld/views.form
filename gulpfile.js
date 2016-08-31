@@ -6,7 +6,7 @@ const gulp = require('gulp'),
     merge = require('merge2'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    
+    babel = require('gulp-babel'),
     plumber = require('gulp-plumber'),
     sourcemaps = require('gulp-sourcemaps');
 
@@ -17,6 +17,9 @@ gulp.task('typescript', () => {
     .pipe(tsc(project))
     
     let js = result.js
+    .pipe(babel({
+        presets:['es2015']
+        }))
     .pipe(gulp.dest('lib'));
     
     let dts = result.dts.pipe(gulp.dest('lib'));
@@ -49,14 +52,15 @@ gulp.task('bundle', ['typescript'], () => {
         externals: {
             "views": 'views',
             "collection": "collection",
-            "orange": "orange"
+            "orange": "orange",
+            "debug": "debug"
             //'stick/lib/template': 'stick' 
-        },
+        }/*,
         module: {
             loaders: [
                 {test: /\.js$/, loader: 'babel-loader', exclude: /(node_modules|bower_components)/, query: { presets: ['es2015']}}
             ]
-        }
+        }*/
     }))
 
     //.pipe(sourcemaps.write('dist'))

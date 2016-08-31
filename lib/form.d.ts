@@ -20,6 +20,7 @@ export declare class Form extends View<HTMLFormElement> {
     render(options?: RenderOptions): this;
     setModel(model: IModel): this;
     validate(): ValidateErrors[];
+    clear(): this;
     private _setValue(model);
     private _renderFields();
     private _onModelValueChange(model);
