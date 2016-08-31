@@ -52,8 +52,7 @@ gulp.task('bundle', ['typescript'], () => {
         externals: {
             "views": 'views',
             "collection": "collection",
-            "orange": "orange",
-            "debug": "debug"
+            "orange": "orange"
             //'stick/lib/template': 'stick' 
         }/*,
         module: {
