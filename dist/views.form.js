@@ -260,7 +260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                ;
 	            }
-	            this.model.set(field.name, field.editor.value);
+	            if (this.model) this.model.set(field.name, field.editor.value);
 	        }
 	    }, {
 	        key: "_onFieldEventTriggered",
@@ -274,7 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                    ;
 	                }
-	                this.model.set(field.name, field.editor.value);
+	                if (this.model) this.model.set(field.name, field.editor.value);
 	            }
 	
 	            for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {

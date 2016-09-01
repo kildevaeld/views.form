@@ -183,7 +183,8 @@ export class Form extends View<HTMLFormElement> {
                     return;
                 };   
             }
-            this.model.set(field.name, field.editor.value);
+            if (this.model)
+                this.model.set(field.name, field.editor.value);
 
     }
 
@@ -197,7 +198,8 @@ export class Form extends View<HTMLFormElement> {
                     return;
                 };   
             }
-            this.model.set(field.name, field.editor.value);
+            if (this.model)
+                this.model.set(field.name, field.editor.value);
         }
 
         this.triggerMethod('field:' + event, field, ...args);
