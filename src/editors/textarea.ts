@@ -1,4 +1,5 @@
-import * as orange from 'orange';
+import {bind} from 'orange';
+import {addEventListener, removeEventListener} from 'orange.dom';
 import {BaseEditor, IEditorOptions} from '../editor';
 import {editor} from '../define';
 import {attributes} from 'views';
@@ -11,8 +12,8 @@ export class AutoSizer {
     }
 
     constructor(public el: HTMLElement) {
-        this._onChange = orange.bind(this._onChange, this);
-        this._onPageResize = orange.bind(this._onPageResize, this);
+        this._onChange = bind(this._onChange, this);
+        this._onPageResize = bind(this._onPageResize, this);
         this._initInitialSize();
     }
 
@@ -54,9 +55,9 @@ export class AutoSizer {
             clientWidth: this.el.clientWidth
         };
 
-        orange.addEventListener(this.el, 'keyup', this._onChange);
-        orange.addEventListener(this.el, 'input', this._onChange);
-        orange.addEventListener(<any>window, 'resize', this._onPageResize);
+        addEventListener(this.el, 'keyup', this._onChange);
+        addEventListener(this.el, 'input', this._onChange);
+        addEventListener(<any>window, 'resize', this._onPageResize);
 
         this._updateSize();
 
@@ -138,9 +139,9 @@ export class AutoSizer {
     }
 
     destroy() {
-        orange.removeEventListener(this.el, 'keyup', this._onChange);
-        orange.removeEventListener(this.el, 'input', this._onChange);
-        orange.removeEventListener(<any>window, 'resize', this._onPageResize);
+        removeEventListener(this.el, 'keyup', this._onChange);
+        removeEventListener(this.el, 'input', this._onChange);
+        removeEventListener(<any>window, 'resize', this._onPageResize);
     }
 }
 

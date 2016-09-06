@@ -1,7 +1,8 @@
 
 import {View, ViewOptions, attributes, RenderOptions} from 'views';
 import {Form} from './form';
-import {extend, createElement, addClass, removeClass, Html, callFunc} from 'orange';
+import {extend, callFunc} from 'orange';
+import {createElement, addClass, removeClass, Html} from 'orange.dom';
 import {IEditor, Editor, IEditorOptions} from './editor';
 import {getEditor} from './define';
 import {ValidateErrors} from './validator'
@@ -14,7 +15,7 @@ export interface FieldOptions extends ViewOptions {
     form: Form;
     name?: string;
     editorOptions?: IEditorOptions;
-    createHelpArea?:boolean;
+    createHelpArea?: boolean;
 }
 
 @attributes({
@@ -22,13 +23,13 @@ export interface FieldOptions extends ViewOptions {
     className: 'form-field'
 })
 export class Field extends View<HTMLDivElement> implements IEditor {
-    static createField(el: HTMLDivElement, options?:FieldOptions): Field {
+    static createField(el: HTMLDivElement, options?: FieldOptions): Field {
         let elm = <HTMLElement>el.querySelector('[name]')
         if (elm == null) throw new Error("field doest not contain an element");
-        let o = extend({}, options||{}, {
+        let o = extend({}, options || {}, {
             el: el
         })
-        
+
         return new Field(o);
     }
 
@@ -54,7 +55,7 @@ export class Field extends View<HTMLDivElement> implements IEditor {
         return null;
     }
 
-    set value(value:any) {
+    set value(value: any) {
         if (this.editor) this.editor.value = value;
     }
 
@@ -89,8 +90,8 @@ export class Field extends View<HTMLDivElement> implements IEditor {
         return this._editor;
     }
 
-    constructor(options?:FieldOptions) {
-        
+    constructor(options?: FieldOptions) {
+
         if (options == null) throw new Error('field options required');
         if (options.form == null) throw new Error('form required');
 
@@ -102,7 +103,7 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
     }
 
-    render (options:RenderOptions = {}) {
+    render(options: RenderOptions = {}) {
 
         if (!options.silent)
             this.triggerMethod('before:render');
@@ -119,8 +120,8 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
 
             let editorType = el.getAttribute('form-editor');
-            
-            let o = extend({}, this._options.editorOptions||{}, {
+
+            let o = extend({}, this._options.editorOptions || {}, {
                 el: el
             });
             let name = el.getAttribute('name');
@@ -133,16 +134,16 @@ export class Field extends View<HTMLDivElement> implements IEditor {
             }
 
             if (this.editor == null) {
-                let editor = getEditor(el.nodeName.toLowerCase(),o);
-                
+                let editor = getEditor(el.nodeName.toLowerCase(), o);
+
                 if (editor) {
                     debug('%s: found custom editor type from tag: %s', name, el.nodeName.toLowerCase());
                     this.editor = editor;
                 } else {
                     this.editor = new Editor(o);
                 }
-                
-            }  
+
+            }
         }
 
         if (this._options.createHelpArea) this.createHelpArea();
@@ -160,7 +161,7 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
     public createHelpArea() {
         let helpArea = <HTMLDivElement>this.el.querySelector('.form-field-helparea');
-        if (helpArea) {
+        if (helpArea) {
             return;
         }
         debug('%s: creating help area', this.name);
@@ -172,18 +173,18 @@ export class Field extends View<HTMLDivElement> implements IEditor {
         /*if (this.editor) {
             this.el.insertBefore(helpArea, this.editor.el);
         } else {*/
-            this.el.appendChild(helpArea);
+        this.el.appendChild(helpArea);
         //}
     }
 
-    validate (): ValidateErrors {
+    validate(): ValidateErrors {
         if (!this.editor) return null;
 
         let el = Html.query(this.el);
 
         let e = this.editor.validate(this._form);
         let helpArea = this.el.querySelector('.form-field-helparea')
-        
+
         if (e == null) {
             el.addClass('has-success').removeClass('has-error');
             if (helpArea) helpArea.innerHTML = '';
@@ -192,14 +193,14 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
         el.addClass('has-error').removeClass('has-success')
 
-        
+
         if (helpArea) {
             let html;
             if (e.errors.length === 1) {
                 html = `<span>${e.errors[0].message}</span>`
             } else {
-                
-                let m = e.errors.map( m => `<li>${m.message}</li>`).join('');
+
+                let m = e.errors.map(m => `<li>${m.message}</li>`).join('');
                 html = `<ul>${m}</ul>`;
             }
             helpArea.innerHTML = html;
