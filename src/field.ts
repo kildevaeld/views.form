@@ -10,11 +10,9 @@ import * as Debug from 'debug';
 
 const debug = Debug('views:form:field');
 
-export interface FieldOptions extends ViewOptions {
+export interface FieldOptions extends IEditorOptions {
     editor?: HTMLElement;
-    form: Form;
-    name?: string;
-    editorOptions?: IEditorOptions;
+    label?: string;
     createHelpArea?: boolean;
 }
 
@@ -121,7 +119,7 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
             let editorType = el.getAttribute('form-editor');
 
-            let o = extend({}, this._options.editorOptions || {}, {
+            let o = extend({}, this._options || {}, {
                 el: el
             });
             let name = el.getAttribute('name');

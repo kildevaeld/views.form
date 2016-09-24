@@ -9,6 +9,8 @@ export interface IEditor extends IDataView {
 }
 export interface IEditorOptions extends ViewOptions {
     [key: string]: any;
+    form?: Form;
+    name?: string;
 }
 export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
     form: Form;

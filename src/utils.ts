@@ -19,7 +19,7 @@ export function template(template: string, data: any, throwOnNotFound:boolean = 
             // Property not found
             if (lookup === undef) {
                 if (throwOnNotFound) {
-                    throw new Error("tim: '" + path[i] + "' not found in " + tag);
+                    throw new Error("templ: '" + path[i] + "' not found in " + tag);
                 } else {
                     lookup = "";
                 }
@@ -30,6 +30,8 @@ export function template(template: string, data: any, throwOnNotFound:boolean = 
                 return lookup;
             }
         }
+
+        return lookup;
     });
 }
 

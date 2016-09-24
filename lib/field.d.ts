@@ -1,12 +1,9 @@
-import { View, ViewOptions, RenderOptions } from 'views';
-import { Form } from './form';
+import { View, RenderOptions } from 'views';
 import { IEditor, IEditorOptions } from './editor';
 import { ValidateErrors } from './validator';
-export interface FieldOptions extends ViewOptions {
+export interface FieldOptions extends IEditorOptions {
     editor?: HTMLElement;
-    form: Form;
-    name?: string;
-    editorOptions?: IEditorOptions;
+    label?: string;
     createHelpArea?: boolean;
 }
 export declare class Field extends View<HTMLDivElement> implements IEditor {
