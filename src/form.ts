@@ -11,7 +11,8 @@ const debug = Debug('views:form');
 export interface FormOptions extends ViewOptions {
     createHelpAreas?: boolean;
     validateOnChange?: boolean;
-    fieldOptions?: {[key: string]: FieldOptions};
+    fields?: {[key: string]: FieldOptions};
+    fieldSelector?: string;
 }
 
 @attributes({
@@ -35,7 +36,8 @@ export class Form extends View<HTMLFormElement> {
         this._options = extend({}, {
             createHelpAreas: false,
             validateOnChange: true,
-            fieldOptions: {}
+            fields: {},
+            fieldSelector: '.field'
         }, options);
     }
 
@@ -72,6 +74,15 @@ export class Form extends View<HTMLFormElement> {
         this._setValue(this.model);
 
         return this;
+    }
+
+    get model() {
+        let out = {}
+        this.fields.forEach( f => {
+            out[f.name] = f.value;
+        });
+        this._model.set(out);
+        return this._model;
     }
 
     setModel(model: IModel) {
@@ -128,7 +139,7 @@ export class Form extends View<HTMLFormElement> {
         });
         this._fields = [];
 
-        let fields = this.el.querySelectorAll('.field');
+        let fields = this.el.querySelectorAll(this.options.fieldSelector);
         debug('found %i fields', fields.length);
         var errors = [], field;
         for (let i = 0, ii = fields.length; i < ii; i++) {
@@ -140,7 +151,7 @@ export class Form extends View<HTMLFormElement> {
                 
                 let o = extend({ 
                     createHelpArea: this.options.createHelpAreas||false
-                }, this.options.fieldOptions[name]||{}, {
+                }, this.options.fields[name]||{}, {
                     form: this
                 });
 

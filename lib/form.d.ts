@@ -5,9 +5,10 @@ import { ValidateErrors } from './validator';
 export interface FormOptions extends ViewOptions {
     createHelpAreas?: boolean;
     validateOnChange?: boolean;
-    fieldOptions?: {
+    fields?: {
         [key: string]: FieldOptions;
     };
+    fieldSelector?: string;
 }
 export declare class Form extends View<HTMLFormElement> {
     private _fields;
@@ -18,6 +19,7 @@ export declare class Form extends View<HTMLFormElement> {
     fields: Field[];
     getFieldByName(name: string): Field;
     render(options?: RenderOptions): this;
+    model: IModel;
     setModel(model: IModel): this;
     validate(): ValidateErrors[];
     clear(): this;

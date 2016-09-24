@@ -120,7 +120,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this._options = orange_1.extend({}, {
 	            createHelpAreas: false,
 	            validateOnChange: true,
-	            fieldOptions: {}
+	            fields: {},
+	            fieldSelector: '.field'
 	        }, options);
 	        return _this;
 	    }
@@ -210,7 +211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                f.destroy();
 	            });
 	            this._fields = [];
-	            var fields = this.el.querySelectorAll('.field');
+	            var fields = this.el.querySelectorAll(this.options.fieldSelector);
 	            debug('found %i fields', fields.length);
 	            var errors = [],
 	                field;
@@ -221,7 +222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (e) name = e.getAttribute('name');
 	                    var o = orange_1.extend({
 	                        createHelpArea: this.options.createHelpAreas || false
-	                    }, this.options.fieldOptions[name] || {}, {
+	                    }, this.options.fields[name] || {}, {
 	                        form: this
 	                    });
 	                    debug('create field: %s', name);
@@ -301,6 +302,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "fields",
 	        get: function get() {
 	            return [].concat(this._fields);
+	        }
+	    }, {
+	        key: "model",
+	        get: function get() {
+	            var out = {};
+	            this.fields.forEach(function (f) {
+	                out[f.name] = f.value;
+	            });
+	            this._model.set(out);
+	            return this._model;
 	        }
 	    }]);
 	
