@@ -306,6 +306,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "model",
 	        get: function get() {
+	            if (this._model == null) return null;
 	            var out = {};
 	            this.fields.forEach(function (f) {
 	                out[f.name] = f.value;

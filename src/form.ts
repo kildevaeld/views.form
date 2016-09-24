@@ -77,6 +77,7 @@ export class Form extends View<HTMLFormElement> {
     }
 
     get model() {
+        if (this._model == null) return null;
         let out = {}
         this.fields.forEach( f => {
             out[f.name] = f.value;
