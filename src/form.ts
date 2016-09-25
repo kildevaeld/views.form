@@ -76,14 +76,14 @@ export class Form extends View<HTMLFormElement> {
         return this;
     }
 
-    get model() {
-        if (this._model == null) return null;
-        let out = {}
+   update() {
+        if (this.model == null) return this;
+        let out = {};
         this.fields.forEach( f => {
             out[f.name] = f.value;
         });
         this._model.set(out);
-        return this._model;
+        return  this;
     }
 
     setModel(model: IModel) {
