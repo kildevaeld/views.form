@@ -154,11 +154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "update",
 	        value: function update() {
 	            if (this.model == null) return this;
-	            var out = {};
-	            this.fields.forEach(function (f) {
-	                out[f.name] = f.value;
-	            });
-	            this._model.set(out);
+	            this._model.set(this.value);
 	            return this;
 	        }
 	    }, {
