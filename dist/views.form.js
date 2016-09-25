@@ -151,6 +151,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this;
 	        }
 	    }, {
+	        key: "update",
+	        value: function update() {
+	            if (this.model == null) return this;
+	            var out = {};
+	            this.fields.forEach(function (f) {
+	                out[f.name] = f.value;
+	            });
+	            this._model.set(out);
+	            return this;
+	        }
+	    }, {
 	        key: "setModel",
 	        value: function setModel(model) {
 	            if (model === this.model) return;
@@ -304,15 +315,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return [].concat(this._fields);
 	        }
 	    }, {
-	        key: "model",
+	        key: "value",
 	        get: function get() {
-	            if (this._model == null) return null;
 	            var out = {};
 	            this.fields.forEach(function (f) {
 	                out[f.name] = f.value;
 	            });
-	            this._model.set(out);
-	            return this._model;
+	            return out;
+	        },
+	        set: function set(value) {
+	            if (value == null) {
+	                this.fields.forEach(function (m) {
+	                    return m.editor.clear();
+	                });
+	            } else {
+	                this.fields.forEach(function (m) {
+	                    if (value[m.name] !== undefined) {
+	                        m.editor.value = value[m.name];
+	                    }
+	                });
+	            }
 	        }
 	    }]);
 	

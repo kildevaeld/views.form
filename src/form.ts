@@ -86,6 +86,26 @@ export class Form extends View<HTMLFormElement> {
         return  this;
     }
 
+    get value() {
+        let out = {};
+        this.fields.forEach( f => {
+            out[f.name] = f.value;
+        });
+        return out;
+    }
+
+    set value(value:any) {
+        if (value == null) {
+            this.fields.forEach( m => m.editor.clear());
+        } else {
+            this.fields.forEach( m => {
+                if (value[m.name] !== undefined) {
+                    m.editor.value = value[m.name];
+                }
+            });
+        }
+    }
+
     setModel(model: IModel) {
         
         if (model === this.model) return;

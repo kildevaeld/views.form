@@ -19,7 +19,8 @@ export declare class Form extends View<HTMLFormElement> {
     fields: Field[];
     getFieldByName(name: string): Field;
     render(options?: RenderOptions): this;
-    model: IModel;
+    update(): this;
+    value: any;
     setModel(model: IModel): this;
     validate(): ValidateErrors[];
     clear(): this;
