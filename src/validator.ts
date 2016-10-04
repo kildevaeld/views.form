@@ -21,6 +21,7 @@ function get_validations(el: HTMLElement) {
         // The required validator is getting handled elsewhere
         if (e === 'required') return null;
         let i = el.getAttribute('validate-' + e);
+        if (i == null) el.getAttribute(e);
         if (i != null) return [validators[e], i, messages[e]||"invalid", e];
         return null;
     }).filter(e => e !== null);
