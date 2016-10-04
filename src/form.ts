@@ -123,15 +123,18 @@ export class Form extends View<HTMLFormElement> {
     clear() {
         if (!this._fields) return this;
         this._fields.forEach( f => f.clear());
+
+       
     }
 
     private _setValue(model:IModel) {
         if (!this._isRendered) {
             this.once('render', () => this._setValue(model))
         }
-        if (model == null) {
-            this.fields.forEach( m => m.editor.clear());
-        } else {
+        
+        this.clear();
+
+        if (model != null) {
             this.fields.forEach( m => {
                 if (model.get(m.name) !== undefined) {
                     m.editor.value = model.get(m.name);

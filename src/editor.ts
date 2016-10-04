@@ -16,6 +16,7 @@ export interface IEditorOptions extends ViewOptions {
     [key: string]: any;
     form?: Form
     name?: string;
+    defaultValue?: any;
 }
 
 export abstract class BaseEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
@@ -33,10 +34,14 @@ export abstract class BaseEditor<E extends HTMLElement, V> extends View<E> imple
         this.setValue(value);
     }
 
+    constructor(public options?:IEditorOptions) {
+        super(options);
+    }
+
     
    public clear() {
         this.triggerMethod('before:clear');
-        this.setValue(null);
+        this.setValue(this.options.defaultValue ? this.options.defaultValue : null);
         this.triggerMethod('clear');
     }
     
@@ -67,10 +72,14 @@ export abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E>
         this.triggerMethod('set:value', value);
     }
 
+    constructor(public options?:IEditorOptions) {
+        super(options);
+    }
+
     
     public clear() {
         this.triggerMethod('before:clear');
-        this.setValue(null);
+        this.setValue(this.options.defaultValue ? this.options.defaultValue : null);
         this.triggerMethod('clear');
     }
     

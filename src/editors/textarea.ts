@@ -170,10 +170,7 @@ class TextArea extends BaseEditor<HTMLTextAreaElement, string> {
         clientWidth: number;
     }
 
-    constructor(options:IEditorOptions) {
-        super(options);
-
-    }
+   
 
     render(o?) {
         super.render(o);

@@ -62,15 +62,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	__export(__webpack_require__(1));
-	var define_1 = __webpack_require__(16);
+	var define_1 = __webpack_require__(17);
 	exports.editor = define_1.editor;
-	var editor_1 = __webpack_require__(8);
+	var editor_1 = __webpack_require__(9);
 	exports.BaseEditor = editor_1.BaseEditor;
 	exports.BaseLayoutEditor = editor_1.BaseLayoutEditor;
 	var field_1 = __webpack_require__(3);
 	exports.Field = field_1.Field;
-	__export(__webpack_require__(10));
-	__webpack_require__(17);
+	__export(__webpack_require__(11));
+	__webpack_require__(18);
 
 /***/ },
 /* 1 */
@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var views_1 = __webpack_require__(2);
 	var field_1 = __webpack_require__(3);
 	var orange_1 = __webpack_require__(4);
-	var Debug = __webpack_require__(11);
+	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form');
 	var Form = function (_views_1$View) {
 	    _inherits(Form, _views_1$View);
@@ -137,7 +137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
 	            this._isRendered = false;
 	            if (!options.silent) this.triggerMethod('before:render');
@@ -193,11 +193,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    return _this2._setValue(model);
 	                });
 	            }
-	            if (model == null) {
-	                this.fields.forEach(function (m) {
-	                    return m.editor.clear();
-	                });
-	            } else {
+	            this.clear();
+	            if (model != null) {
 	                this.fields.forEach(function (m) {
 	                    if (model.get(m.name) !== undefined) {
 	                        m.editor.value = model.get(m.name);
@@ -378,9 +375,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var views_1 = __webpack_require__(2);
 	var orange_1 = __webpack_require__(4);
 	var orange_dom_1 = __webpack_require__(5);
-	var editor_1 = __webpack_require__(8);
-	var define_1 = __webpack_require__(16);
-	var Debug = __webpack_require__(11);
+	var editor_1 = __webpack_require__(9);
+	var define_1 = __webpack_require__(17);
+	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form:field');
 	var Field_1 = void 0;
 	var Field = Field_1 = function (_views_1$View) {
@@ -409,7 +406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
 	            if (!options.silent) this.triggerMethod('before:render');
 	            this.undelegateEvents();
@@ -582,6 +579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	__export(__webpack_require__(6));
 	__export(__webpack_require__(7));
+	__export(__webpack_require__(8));
 
 /***/ },
 /* 6 */
@@ -589,10 +587,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	// TODO: CreateHTML
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var orange_1 = __webpack_require__(4);
 	var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
@@ -790,80 +784,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return elm;
 	}
 	exports.createElement = createElement;
-	
-	var LoadedImage = function () {
-	    function LoadedImage(img) {
-	        _classCallCheck(this, LoadedImage);
-	
-	        this.img = img;
-	    }
-	
-	    _createClass(LoadedImage, [{
-	        key: 'check',
-	        value: function check(fn) {
-	            this.fn = fn;
-	            var isComplete = this.getIsImageComplete();
-	            if (isComplete) {
-	                // report based on naturalWidth
-	                this.confirm(this.img.naturalWidth !== 0, 'naturalWidth');
-	                return;
-	            }
-	            this.img.addEventListener('load', this);
-	            this.img.addEventListener('error', this);
-	        }
-	    }, {
-	        key: 'confirm',
-	        value: function confirm(loaded, msg, err) {
-	            this.isLoaded = loaded;
-	            if (this.fn) this.fn(err);
-	        }
-	    }, {
-	        key: 'getIsImageComplete',
-	        value: function getIsImageComplete() {
-	            return this.img.complete && this.img.naturalWidth !== undefined && this.img.naturalWidth !== 0;
-	        }
-	    }, {
-	        key: 'handleEvent',
-	        value: function handleEvent(e) {
-	            var method = 'on' + event.type;
-	            if (this[method]) {
-	                this[method](event);
-	            }
-	        }
-	    }, {
-	        key: 'onload',
-	        value: function onload(e) {
-	            this.confirm(true, 'onload');
-	            this.unbindEvents();
-	        }
-	    }, {
-	        key: 'onerror',
-	        value: function onerror(e) {
-	            this.confirm(false, 'onerror', new Error(e.error));
-	            this.unbindEvents();
-	        }
-	    }, {
-	        key: 'unbindEvents',
-	        value: function unbindEvents() {
-	            this.img.removeEventListener('load', this);
-	            this.img.removeEventListener('error', this);
-	            this.fn = void 0;
-	        }
-	    }]);
-	
-	    return LoadedImage;
-	}();
-	
-	function imageLoaded(img) {
-	    return new orange_1.Promise(function (resolve, reject) {
-	        var i = new LoadedImage(img);
-	        i.check(function (err) {
-	            if (err) return reject(err);
-	            resolve(i.isLoaded);
-	        });
-	    });
-	}
-	exports.imageLoaded = imageLoaded;
 
 /***/ },
 /* 7 */
@@ -1077,6 +997,116 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var orange_1 = __webpack_require__(4);
+	var dom_1 = __webpack_require__(6);
+	
+	var LoadedImage = function () {
+	    function LoadedImage(img) {
+	        var timeout = arguments.length <= 1 || arguments[1] === undefined ? 200 : arguments[1];
+	        var retries = arguments.length <= 2 || arguments[2] === undefined ? 10 : arguments[2];
+	
+	        _classCallCheck(this, LoadedImage);
+	
+	        this.img = img;
+	        this.timeout = timeout;
+	        this.retries = retries;
+	        this.__resolved = false;
+	    }
+	
+	    _createClass(LoadedImage, [{
+	        key: 'check',
+	        value: function check(fn) {
+	            var _this = this;
+	
+	            this.fn = fn;
+	            var isComplete = this.getIsImageComplete();
+	            if (isComplete) {
+	                // report based on naturalWidth
+	                this.confirm(this.img.naturalWidth !== 0, 'naturalWidth');
+	                return;
+	            }
+	            var retries = this.retries;
+	            var retry = function retry() {
+	                setTimeout(function () {
+	                    if (_this.__resolved) return;
+	                    if (_this.img.naturalWidth > 0) {
+	                        _this.__resolved = true;
+	                        return _this.onload(null);
+	                    } else if (retries > 0) {
+	                        retries--;
+	                        retry();
+	                    }
+	                }, _this.timeout);
+	            };
+	            retry();
+	            dom_1.addEventListener(this.img, 'load', this);
+	            dom_1.addEventListener(this.img, 'error', this);
+	        }
+	    }, {
+	        key: 'confirm',
+	        value: function confirm(loaded, msg, err) {
+	            this.__resolved = true;
+	            this.isLoaded = loaded;
+	            if (this.fn) this.fn(err);
+	        }
+	    }, {
+	        key: 'getIsImageComplete',
+	        value: function getIsImageComplete() {
+	            return this.img.complete && this.img.naturalWidth !== undefined && this.img.naturalWidth !== 0;
+	        }
+	    }, {
+	        key: 'handleEvent',
+	        value: function handleEvent(e) {
+	            var method = 'on' + event.type;
+	            if (this[method]) {
+	                this[method](event);
+	            }
+	        }
+	    }, {
+	        key: 'onload',
+	        value: function onload(e) {
+	            this.confirm(true, 'onload');
+	            this.unbindEvents();
+	        }
+	    }, {
+	        key: 'onerror',
+	        value: function onerror(e) {
+	            this.confirm(false, 'onerror', new Error(e.error));
+	            this.unbindEvents();
+	        }
+	    }, {
+	        key: 'unbindEvents',
+	        value: function unbindEvents() {
+	            dom_1.removeEventListener(this.img, 'load', this);
+	            dom_1.removeEventListener(this.img, 'error', this);
+	            this.fn = void 0;
+	        }
+	    }]);
+	
+	    return LoadedImage;
+	}();
+	
+	function imageLoaded(img, timeout, retries) {
+	    return new orange_1.Promise(function (resolve, reject) {
+	        var i = new LoadedImage(img, timeout, retries);
+	        i.check(function (err) {
+	            if (err) return reject(err);
+	            resolve(i.isLoaded);
+	        });
+	    });
+	}
+	exports.imageLoaded = imageLoaded;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1097,24 +1127,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var views_1 = __webpack_require__(2);
-	var utils_1 = __webpack_require__(9);
-	var validator_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(10);
+	var validator_1 = __webpack_require__(11);
 	var orange_1 = __webpack_require__(4);
 	
 	var BaseEditor = function (_views_1$View) {
 	    _inherits(BaseEditor, _views_1$View);
 	
-	    function BaseEditor() {
+	    function BaseEditor(options) {
 	        _classCallCheck(this, BaseEditor);
 	
-	        return _possibleConstructorReturn(this, (BaseEditor.__proto__ || Object.getPrototypeOf(BaseEditor)).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, (BaseEditor.__proto__ || Object.getPrototypeOf(BaseEditor)).call(this, options));
+	
+	        _this.options = options;
+	        return _this;
 	    }
 	
 	    _createClass(BaseEditor, [{
 	        key: "clear",
 	        value: function clear() {
 	            this.triggerMethod('before:clear');
-	            this.setValue(null);
+	            this.setValue(this.options.defaultValue ? this.options.defaultValue : null);
 	            this.triggerMethod('clear');
 	        }
 	    }, {
@@ -1146,17 +1179,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BaseLayoutEditor = function (_views_1$View2) {
 	    _inherits(BaseLayoutEditor, _views_1$View2);
 	
-	    function BaseLayoutEditor() {
+	    function BaseLayoutEditor(options) {
 	        _classCallCheck(this, BaseLayoutEditor);
 	
-	        return _possibleConstructorReturn(this, (BaseLayoutEditor.__proto__ || Object.getPrototypeOf(BaseLayoutEditor)).apply(this, arguments));
+	        var _this2 = _possibleConstructorReturn(this, (BaseLayoutEditor.__proto__ || Object.getPrototypeOf(BaseLayoutEditor)).call(this, options));
+	
+	        _this2.options = options;
+	        return _this2;
 	    }
 	
 	    _createClass(BaseLayoutEditor, [{
 	        key: "clear",
 	        value: function clear() {
 	            this.triggerMethod('before:clear');
-	            this.setValue(null);
+	            this.setValue(this.options.defaultValue ? this.options.defaultValue : null);
 	            this.triggerMethod('clear');
 	        }
 	    }, {
@@ -1237,7 +1273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Editor = Editor;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1249,7 +1285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	pattern = new RegExp(start + "\\s*(" + path + ")\\s*" + end, "gi"),
 	    undef = undefined;
 	function template(template, data) {
-	    var throwOnNotFound = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
+	    var throwOnNotFound = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 	
 	    return template.replace(pattern, function (tag, token) {
 	        var path = token.split("."),
@@ -1325,7 +1361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.setValue = setValue;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1338,11 +1374,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var utils_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(10);
 	var orange_1 = __webpack_require__(4);
-	var Debug = __webpack_require__(11);
+	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form:validator');
-	var validURL = __webpack_require__(14);
+	var validURL = __webpack_require__(15);
 	function get_validations(el) {
 	    var required;
 	    var v = Object.keys(validators).map(function (e) {
@@ -1358,7 +1394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return v;
 	}
 	function validate(form, editor, value) {
-	    var vals = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+	    var vals = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 	
 	    var el = editor.el;
 	    var v = get_validations(el),
@@ -1510,7 +1546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _inherits(ValidateErrors, _Error2);
 	
 	    function ValidateErrors() {
-	        var errors = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	        var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	
 	        _classCallCheck(this, ValidateErrors);
 	
@@ -1533,7 +1569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ValidateErrors = ValidateErrors;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -1543,7 +1579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = __webpack_require__(12);
+	exports = module.exports = __webpack_require__(13);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -1707,7 +1743,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -1723,7 +1759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(13);
+	exports.humanize = __webpack_require__(14);
 	
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -1910,7 +1946,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -2041,7 +2077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {(function(module) {
@@ -2198,10 +2234,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	})(module);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -2217,12 +2253,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var Debug = __webpack_require__(11);
+	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form');
 	var _editors = {};
 	function editor(name) {
@@ -2241,7 +2277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getEditor = getEditor;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2271,8 +2307,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var orange_1 = __webpack_require__(4);
 	var orange_dom_1 = __webpack_require__(5);
-	var editor_1 = __webpack_require__(8);
-	var define_1 = __webpack_require__(16);
+	var editor_1 = __webpack_require__(9);
+	var define_1 = __webpack_require__(17);
 	var views_1 = __webpack_require__(2);
 	
 	var AutoSizer = function () {
@@ -2405,10 +2441,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TextArea = function (_editor_1$BaseEditor) {
 	    _inherits(TextArea, _editor_1$BaseEditor);
 	
-	    function TextArea(options) {
+	    function TextArea() {
 	        _classCallCheck(this, TextArea);
 	
-	        return _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call(this, options));
+	        return _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).apply(this, arguments));
 	    }
 	
 	    _createClass(TextArea, [{
@@ -2467,7 +2503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }
-	}), __metadata('design:paramtypes', [Object])], TextArea);
+	}), __metadata('design:paramtypes', [])], TextArea);
 
 /***/ }
 /******/ ])
