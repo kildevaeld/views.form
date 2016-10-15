@@ -1,9 +1,9 @@
 declare const require: any;
-import {template} from './utils';
-import {Field} from './field';
-import {Form} from './form';
-import {IEditor} from './editor';
-import {unique, equal} from 'orange';
+import { template } from './utils';
+import { Field } from './field';
+import { Form } from './form';
+import { IEditor } from './editor';
+import { unique, equal } from 'orange';
 import * as Debug from 'debug';
 
 const debug = Debug('views:form:validator');
@@ -22,16 +22,16 @@ function get_validations(el: HTMLElement) {
         if (e === 'required') return null;
         let i = el.getAttribute('validate-' + e);
         if (i == null) el.getAttribute(e);
-        if (i != null) return [validators[e], i, messages[e]||"invalid", e];
+        if (i != null) return [validators[e], i, messages[e] || "invalid", e];
         return null;
     }).filter(e => e !== null);
-    
+
     return v;
 }
 // Validator, args, message, validatorName
-export type ValidatorDef = [Validator, string, string, string];  
+export type ValidatorDef = [Validator, string, string, string];
 
-export function validate(form: Form, editor: IEditor, value:any, vals:ValidatorDef[] = []) {
+export function validate(form: Form, editor: IEditor, value: any, vals: ValidatorDef[] = []) {
 
     let el = editor.el;
 
@@ -105,13 +105,13 @@ export module validators {
             return value.length >= min;
         } else if (Array.isArray(value)) {
             return value.length >= min;
-        } else  {
+        } else {
             return parseInt(value) >= min;
         }
     }
 
     export function max(name: string, form: Form, value: any, arg: any) {
-         let max = parseInt(arg);
+        let max = parseInt(arg);
         // TODO: check in init
         if (isNaN(max)) return;
 
@@ -119,9 +119,9 @@ export module validators {
             return value.length <= max;
         } else if (Array.isArray(value)) {
             return value.length <= max;
-        } else  {
+        } else {
             return parseInt(value) <= max;
-        }   
+        }
     }
 
     export function match(name: string, form: Form, value: any, arg: any) {
@@ -170,7 +170,7 @@ export module validators {
                 return false;
 
             var domainParts = parts[1].split(".");
-            if (domainParts.some(function(part) { return part.length > 63; }))
+            if (domainParts.some(function (part) { return part.length > 63; }))
                 return false;
 
             return true;
@@ -197,7 +197,7 @@ export class ValidateError extends Error {
 
 export class ValidateErrors extends Error {
     errors: ValidateError[];
-    get length () { return this.errors.length }
+    get length() { return this.errors.length }
     constructor(errors: ValidateError[] = []) {
         super();
         this.errors = errors;
