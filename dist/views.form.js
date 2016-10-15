@@ -145,8 +145,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.renderTemplate(this.getTemplateData());
 	            this._renderFields();
 	            this.delegateEvents();
-	            if (!options.silent) this.triggerMethod('render');
 	            this._isRendered = true;
+	            if (!options.silent) this.triggerMethod('render');
 	            this._setValue(this.model);
 	            return this;
 	        }
@@ -189,9 +189,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = this;
 	
 	            if (!this._isRendered) {
-	                this.once('render', function () {
-	                    return _this2._setValue(model);
-	                });
+	                //this.once('render', () => this._setValue(model))
+	                return;
 	            }
 	            this.clear();
 	            if (model != null) {

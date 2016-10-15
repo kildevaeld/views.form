@@ -1,9 +1,9 @@
 
-import {View, attributes, RenderOptions, ViewOptions} from 'views';
-import {Field, FieldOptions} from './field';
-import {IModel} from 'collection';
-import {ValidateErrors} from './validator';
-import {extend} from 'orange';
+import { View, attributes, RenderOptions, ViewOptions } from 'views';
+import { Field, FieldOptions } from './field';
+import { IModel } from 'collection';
+import { ValidateErrors } from './validator';
+import { extend } from 'orange';
 import * as Debug from 'debug';
 
 const debug = Debug('views:form');
@@ -11,7 +11,7 @@ const debug = Debug('views:form');
 export interface FormOptions extends ViewOptions {
     createHelpAreas?: boolean;
     validateOnChange?: boolean;
-    fields?: {[key: string]: FieldOptions};
+    fields?: { [key: string]: FieldOptions };
     fieldSelector?: string;
 }
 
@@ -30,9 +30,9 @@ export class Form extends View<HTMLFormElement> {
         return this._options;
     }
 
-    constructor(options?:FormOptions) {
+    constructor(options?: FormOptions) {
         super(options);
-        options = options||{};
+        options = options || {};
         this._options = extend({}, {
             createHelpAreas: false,
             validateOnChange: true,
@@ -41,11 +41,11 @@ export class Form extends View<HTMLFormElement> {
         }, options);
     }
 
-    get fields (): Field[] {
+    get fields(): Field[] {
         return [].concat(this._fields);
     }
 
-    getFieldByName(name: string) : Field {
+    getFieldByName(name: string): Field {
         for (let i = 0, ii = this.fields.length; i < ii; i++) {
             if (this.fields[i].name === name) return this.fields[i];
         }
@@ -66,35 +66,37 @@ export class Form extends View<HTMLFormElement> {
 
         this.delegateEvents();
 
+
+        this._isRendered = true;
+
         if (!options.silent)
             this.triggerMethod('render');
 
-        this._isRendered = true;
 
         this._setValue(this.model);
 
         return this;
     }
 
-   update() {
+    update() {
         if (this.model == null) return this;
         this._model.set(this.value);
-        return  this;
+        return this;
     }
 
     get value() {
         let out = {};
-        this.fields.forEach( f => {
+        this.fields.forEach(f => {
             out[f.name] = f.value;
         });
         return out;
     }
 
-    set value(value:any) {
+    set value(value: any) {
         if (value == null) {
-            this.fields.forEach( m => m.editor.clear());
+            this.fields.forEach(m => m.editor.clear());
         } else {
-            this.fields.forEach( m => {
+            this.fields.forEach(m => {
                 if (value[m.name] !== undefined) {
                     m.editor.value = value[m.name];
                 }
@@ -103,7 +105,7 @@ export class Form extends View<HTMLFormElement> {
     }
 
     setModel(model: IModel) {
-        
+
         if (model === this.model) return;
 
         super.setModel(model);
@@ -113,44 +115,45 @@ export class Form extends View<HTMLFormElement> {
         if (model != null)
             this.listenTo(model, 'change', this._onModelValueChange);
 
-        return this;        
+        return this;
     }
 
     validate(): ValidateErrors[] {
-        return this.fields.map( m => m.validate()).filter( m => m != null);
+        return this.fields.map(m => m.validate()).filter(m => m != null);
     }
 
     clear() {
         if (!this._fields) return this;
-        this._fields.forEach( f => f.clear());
+        this._fields.forEach(f => f.clear());
 
-       
+
     }
 
-    private _setValue(model:IModel) {
+    private _setValue(model: IModel) {
         if (!this._isRendered) {
-            this.once('render', () => this._setValue(model))
+            //this.once('render', () => this._setValue(model))
+            return;
         }
-        
+
         this.clear();
 
         if (model != null) {
-            this.fields.forEach( m => {
+            this.fields.forEach(m => {
                 if (model.get(m.name) !== undefined) {
                     m.editor.value = model.get(m.name);
                 } else {
-                    (<any>this.model).set(m.name, m.editor.value, {silent: true});
+                    (<any>this.model).set(m.name, m.editor.value, { silent: true });
                 }
             })
 
         }
-        
+
     }
 
 
 
     private _renderFields() {
-        
+
         this.triggerMethod('before:render:fields');
 
         this._fields.forEach(f => {
@@ -163,17 +166,17 @@ export class Form extends View<HTMLFormElement> {
         debug('found %i fields', fields.length);
         var errors = [], field;
         for (let i = 0, ii = fields.length; i < ii; i++) {
-            
+
             try {
                 let e = fields[i].querySelector('[name]');
                 let name = "";
                 if (e) name = e.getAttribute('name');
-                
-                let o = extend({ 
-                    createHelpArea: this.options.createHelpAreas||false
-                }, this.options.fields[name]||{}, {
-                    form: this
-                });
+
+                let o = extend({
+                    createHelpArea: this.options.createHelpAreas || false
+                }, this.options.fields[name] || {}, {
+                        form: this
+                    });
 
                 debug('create field: %s', name);
                 field = Field.createField(<HTMLDivElement>fields[i], o);
@@ -188,7 +191,7 @@ export class Form extends View<HTMLFormElement> {
 
         }
 
-        this._fields.forEach( m => { m.render() });
+        this._fields.forEach(m => { m.render() });
 
         if (errors.length) {
             this.triggerMethod('render:fields:error', errors);
@@ -198,7 +201,7 @@ export class Form extends View<HTMLFormElement> {
 
     }
 
-    private _onModelValueChange (model: IModel) {
+    private _onModelValueChange(model: IModel) {
         for (let key in model.changed) {
             let field = this.getFieldByName(key);
             if (field == null) continue;
@@ -206,28 +209,28 @@ export class Form extends View<HTMLFormElement> {
         }
     }
 
-    private _onFieldValueChanged (field: Field, ...args:any[]) {
-       
+    private _onFieldValueChanged(field: Field, ...args: any[]) {
+
         this.trigger('change')
-            if (this.options.validateOnChange) {
-                if (field.validate()) {
-                    return;
-                };   
-            }
-            if (this.model)
-                this.model.set(field.name, field.editor.value);
+        if (this.options.validateOnChange) {
+            if (field.validate()) {
+                return;
+            };
+        }
+        if (this.model)
+            this.model.set(field.name, field.editor.value);
 
     }
 
 
-    private _onFieldEventTriggered (event: string, field: Field, ...args:any[]) {
+    private _onFieldEventTriggered(event: string, field: Field, ...args: any[]) {
         console.log(event);
         if (event === "change") {
             this.trigger('change')
             if (this.options.validateOnChange) {
                 if (field.validate()) {
                     return;
-                };   
+                };
             }
             if (this.model)
                 this.model.set(field.name, field.editor.value);
@@ -238,9 +241,9 @@ export class Form extends View<HTMLFormElement> {
     }
 
 
-    destroy () {
-        this._fields.forEach( f => f.destroy());
-        this._fields = [];
+    destroy() {
+        this._fields.forEach(f => f.destroy());
+        this._fields = [];
         return super.destroy();
     }
 
