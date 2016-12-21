@@ -4,7 +4,9 @@
 <head>
     <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
     <script src="../node_modules/orange/dist/orange.js"></script>
-    <script src="../node_modules/views/dist/views.min.js"></script>
+    <script src="../node_modules/orange.dom/dist/orange.dom.js"></script>
+    <script src="../node_modules/eventsjs/dist/events.js"></script>
+    <script src="../node_modules/views/dist/views.js"></script>
     <script src="../node_modules/collection/dist/collection.js"></script>
     <script src="../dist/views.form.js"></script>
 
@@ -29,27 +31,36 @@
             <label>Url</label>
             <input name="url"  validate-url required />
         </div>
+        
         <div class="field">
-            <textarea style="resize:vertical;" name="text" autosize></textarea>
+            <label>Check</label>
+            <input type="checkbox" name="rapper"   required />
+        </div>
+        <div class="field">
+            <textarea style="resize:vertical;" name="text" autosize editor-label="Text"></textarea>
         </div>
 
     </form>
-    <button id="button">ok</button>
+    <button id="ok">ok</button>
+    <button id="clear">clear</button>
     <script>
         
         var form = new views.form.Form({
             el: document.querySelector('#form'),
             createHelpAreas: true,
             validateOnChange: true,
-            fieldOptions: {
+            fields: {
                 name: {
                     editorOptions: {
                         client: 'hlic'
                     }
+                },
+                rapper: {
+                    defaultValue: true
                 }
             }
         });
-        console.log(form)
+        
 
         form.on('all', function (e) {
             //console.log(e)
@@ -61,11 +72,16 @@
 
         form.render()
 
-        var b = document.querySelector('#button');
+        var b = document.querySelector('#ok');
         b.addEventListener('click', function () {
             let v = form.validate();
             console.log(v)
         });
+
+        b = document.querySelector('#clear')
+        b.addEventListener('click', function () {
+            form.clear()
+        })
 
         //form.model.set('url', 'http://localhost');
 

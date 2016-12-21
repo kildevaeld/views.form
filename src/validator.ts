@@ -39,6 +39,7 @@ export function validate(form: Form, editor: IEditor, value: any, vals: Validato
         name = editor.name,//el.getAttribute('name'),
         errors = [];
 
+
     let required = el.getAttribute('required');
     if (required == null) required = el.getAttribute('validate-required');
 
@@ -50,12 +51,12 @@ export function validate(form: Form, editor: IEditor, value: any, vals: Validato
             debug("'required' validator failed on %s", name);
             return new ValidateErrors([new ValidateError(template(messages.required, {
                 name: name,
-                label: name,
+                label: editor.label,
                 value: value,
                 arg: null
             }))]);
         }
-    } else if (value == null || value == "") {
+    } else if (value === null || value === "" || value === undefined) {
         // Do not run validations, when the value is empty
         return null;
     }
@@ -67,7 +68,7 @@ export function validate(form: Form, editor: IEditor, value: any, vals: Validato
             let e = new ValidateError(template(v[i][2], {
                 name: name,
                 value: value,
-                label: name,
+                label: editor.label,
                 arg: v[i][1]
             }));
             errors.push(e);
@@ -83,8 +84,8 @@ export function validate(form: Form, editor: IEditor, value: any, vals: Validato
 
 module messages {
     export const required = "<b><% label %></b> is required";
-    export const min = "<b><% label %></b> needs to be minimum <% arg %>";
-    export const max = "<b><% label %></b> needs to be maximum <% arg %>"
+    export const min = "<b><% label %></b> must be at least <% arg %>";
+    export const max = "<b><% label %></b> must be a maximum of <% arg %>"
     export const email = "<b><% label %></b> is not an email";
     export const url = "<b><% label %></b> is not an url";
     export const match = "<b><% label %></b> does not match: <b><%arg%></b>"
@@ -92,7 +93,7 @@ module messages {
 
 export module validators {
     export function required(name: string, form: Form, value: any, arg: any) {
-        return !(value == "" || value == null)
+        return !(value === "" || value === null || value === undefined)
     }
 
     export function min(name: string, form: Form, value: any, arg: any) {
@@ -183,8 +184,11 @@ export function setMessage(validator: string, message: string) {
     messages[validator] = message;
 }
 
-export function registerValidator(name: string, fn: (name: string, form: Form, value: any, arg: any) => boolean) {
+export function registerValidator(name: string, fn: (name: string, form: Form, value: any, arg: any) => boolean, message?:string) {
     validators[name] = fn;
+    if (message) { 
+        messages[name] = message;
+    }
 }
 
 export class ValidateError extends Error {

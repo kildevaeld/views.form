@@ -3,6 +3,7 @@ import { ValidateErrors } from './validator';
 import { Form } from './form';
 export interface IEditor extends IDataView {
     name: string;
+    label?: string;
     value: any;
     clear(): any;
     validate(form: Form): ValidateErrors;
@@ -11,13 +12,17 @@ export interface IEditorOptions extends ViewOptions {
     [key: string]: any;
     form?: Form;
     name?: string;
+    label?: string;
     defaultValue?: any;
 }
 export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
     options: IEditorOptions;
     form: Form;
-    name: string;
+    protected _label: string;
+    protected _name: string;
+    readonly name: string;
     value: V;
+    label: string;
     constructor(options?: IEditorOptions);
     clear(): void;
     validate(form: Form): ValidateErrors;
@@ -26,8 +31,10 @@ export declare abstract class BaseEditor<E extends HTMLElement, V> extends View<
 }
 export declare abstract class BaseLayoutEditor<E extends HTMLElement, V> extends View<E> implements IEditor {
     options: IEditorOptions;
-    name: string;
+    protected _label: any;
+    readonly name: string;
     value: V;
+    label: any;
     constructor(options?: IEditorOptions);
     clear(): void;
     validate(form: Form): ValidateErrors;
@@ -36,7 +43,7 @@ export declare abstract class BaseLayoutEditor<E extends HTMLElement, V> extends
 }
 export declare class Editor<E extends HTMLElement> extends BaseEditor<E, any> implements IEditor {
     private _prev;
-    name: string;
+    readonly name: string;
     protected setValue(value: any): void;
     protected getValue(): any;
     protected _onKeyPress(e: KeyboardEvent): void;

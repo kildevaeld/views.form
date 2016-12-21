@@ -4,6 +4,9 @@ import {BaseEditor, IEditorOptions} from '../editor';
 import {editor} from '../define';
 import {attributes} from 'views';
 
+/** 
+ * Autosize a textarea on input
+ */
 export class AutoSizer {
     private _state: {
         overflowY: string;
@@ -170,7 +173,6 @@ class TextArea extends BaseEditor<HTMLTextAreaElement, string> {
         clientWidth: number;
     }
 
-   
 
     render(o?) {
         super.render(o);

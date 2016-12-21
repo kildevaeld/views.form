@@ -8,10 +8,13 @@ const gulp = require('gulp'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel'),
     plumber = require('gulp-plumber'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    bump = require('gulp-bump');
 
 
-const project = tsc.createProject('./tsconfig.json');
+const project = tsc.createProject('./tsconfig.json', {
+    typescript: require('typescript')
+});
 gulp.task('typescript', () => {
     let result = project.src()
     .pipe(tsc(project))

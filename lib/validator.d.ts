@@ -14,13 +14,13 @@ export declare module validators {
     function email(name: string, form: Form, value: any, arg: any): boolean;
 }
 export declare function setMessage(validator: string, message: string): void;
-export declare function registerValidator(name: string, fn: (name: string, form: Form, value: any, arg: any) => boolean): void;
+export declare function registerValidator(name: string, fn: (name: string, form: Form, value: any, arg: any) => boolean, message?: string): void;
 export declare class ValidateError extends Error {
     message: string;
     constructor(message: string);
 }
 export declare class ValidateErrors extends Error {
     errors: ValidateError[];
-    length: number;
+    readonly length: number;
     constructor(errors?: ValidateError[]);
 }

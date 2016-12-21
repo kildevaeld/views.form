@@ -10,9 +10,10 @@ export declare class Field extends View<HTMLDivElement> implements IEditor {
     static createField(el: HTMLDivElement, options?: FieldOptions): Field;
     private _form;
     private _editor;
+    private _label;
     _options: FieldOptions;
-    name: string;
-    label: string;
+    readonly name: string;
+    readonly label: string;
     value: any;
     clear(): void;
     editor: IEditor;

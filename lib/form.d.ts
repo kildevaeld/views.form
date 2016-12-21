@@ -14,9 +14,9 @@ export declare class Form extends View<HTMLFormElement> {
     private _fields;
     private _isRendered;
     _options: FormOptions;
-    options: FormOptions;
+    readonly options: FormOptions;
     constructor(options?: FormOptions);
-    fields: Field[];
+    readonly fields: Field[];
     getFieldByName(name: string): Field;
     render(options?: RenderOptions): this;
     update(): this;

@@ -1,11 +1,11 @@
 
-import {View, ViewOptions, attributes, RenderOptions} from 'views';
-import {Form} from './form';
-import {extend, callFunc} from 'orange';
-import {createElement, addClass, removeClass, Html} from 'orange.dom';
-import {IEditor, Editor, IEditorOptions} from './editor';
-import {getEditor} from './define';
-import {ValidateErrors} from './validator'
+import { View, ViewOptions, attributes, RenderOptions } from 'views';
+import { Form } from './form';
+import { extend, callFunc } from 'orange';
+import { createElement, addClass, removeClass, Html } from 'orange.dom';
+import { IEditor, Editor, IEditorOptions } from './editor';
+import { getEditor } from './define';
+import { ValidateErrors } from './validator'
 import * as Debug from 'debug';
 
 const debug = Debug('views:form:field');
@@ -33,19 +33,30 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
     private _form: Form;
     private _editor: IEditor;
+    private _label: string;
     public _options: FieldOptions;
 
     get name(): string {
         if (this._editor) return this._editor.name;
-        return "no-name";
+        return ""
     }
 
     get label(): string {
-        let label = this.el.querySelector('form-field-label');
-        if (label) {
-            return label.textContent;
+
+        if (!this._label) {
+            let label = this._editor ? this._editor.label : null;
+            if (!label) {
+                let el = this.el.querySelector('form-field-label');
+                if (!el) {
+                    el = this.el.querySelector('label');
+                }
+                if (el) label = el.textContent;
+            }
+
+            this._label = label || this.name;
         }
-        return this.name;
+
+        return this._label;
     }
 
     get value(): any {
@@ -119,7 +130,9 @@ export class Field extends View<HTMLDivElement> implements IEditor {
 
             let editorType = el.getAttribute('form-editor');
 
-            let o = extend({}, this._options || {}, {
+            let o = extend({
+                label: this.label
+            }, this._options || {}, {
                 el: el
             });
             let name = el.getAttribute('name');
@@ -130,6 +143,7 @@ export class Field extends View<HTMLDivElement> implements IEditor {
                     this.editor = editor;
                 }
             }
+
 
             if (this.editor == null) {
                 let editor = getEditor(el.nodeName.toLowerCase(), o);
@@ -211,4 +225,6 @@ export class Field extends View<HTMLDivElement> implements IEditor {
     protected _onEditorChange() {
         this.triggerMethod('change', this);
     }
+
+
 }

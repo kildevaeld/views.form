@@ -62,7 +62,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	__export(__webpack_require__(1));
-	var define_1 = __webpack_require__(17);
+	var define_1 = __webpack_require__(18);
 	exports.editor = define_1.editor;
 	var editor_1 = __webpack_require__(9);
 	exports.BaseEditor = editor_1.BaseEditor;
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var field_1 = __webpack_require__(3);
 	exports.Field = field_1.Field;
 	__export(__webpack_require__(11));
-	__webpack_require__(18);
+	__webpack_require__(19);
 
 /***/ },
 /* 1 */
@@ -335,7 +335,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Form = __decorate([views_1.attributes({
 	    tagName: 'form',
 	    events: {}
-	}), __metadata('design:paramtypes', [Object])], Form);
+	}), __metadata("design:paramtypes", [Object])], Form);
 	exports.Form = Form;
 
 /***/ },
@@ -375,10 +375,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var orange_1 = __webpack_require__(4);
 	var orange_dom_1 = __webpack_require__(5);
 	var editor_1 = __webpack_require__(9);
-	var define_1 = __webpack_require__(17);
+	var define_1 = __webpack_require__(18);
 	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form:field');
-	var Field_1 = void 0;
 	var Field = Field_1 = function (_views_1$View) {
 	    _inherits(Field, _views_1$View);
 	
@@ -416,7 +415,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    throw new Error('no editor or no input with name attribute');
 	                }
 	                var editorType = el.getAttribute('form-editor');
-	                var o = orange_1.extend({}, this._options || {}, {
+	                var o = orange_1.extend({
+	                    label: this.label
+	                }, this._options || {}, {
 	                    el: el
 	                });
 	                var name = el.getAttribute('name');
@@ -497,16 +498,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "name",
 	        get: function get() {
 	            if (this._editor) return this._editor.name;
-	            return "no-name";
+	            return "";
 	        }
 	    }, {
 	        key: "label",
 	        get: function get() {
-	            var label = this.el.querySelector('form-field-label');
-	            if (label) {
-	                return label.textContent;
+	            if (!this._label) {
+	                var label = this._editor ? this._editor.label : null;
+	                if (!label) {
+	                    var el = this.el.querySelector('form-field-label');
+	                    if (!el) {
+	                        el = this.el.querySelector('label');
+	                    }
+	                    if (el) label = el.textContent;
+	                }
+	                this._label = label || this.name;
 	            }
-	            return this.name;
+	            return this._label;
 	        }
 	    }, {
 	        key: "value",
@@ -556,8 +564,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	Field = Field_1 = __decorate([views_1.attributes({
 	    tagName: 'div',
 	    className: 'form-field'
-	}), __metadata('design:paramtypes', [Object])], Field);
+	}), __metadata("design:paramtypes", [Object])], Field);
 	exports.Field = Field;
+	var Field_1;
 
 /***/ },
 /* 4 */
@@ -1133,12 +1142,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BaseEditor = function (_views_1$View) {
 	    _inherits(BaseEditor, _views_1$View);
 	
-	    function BaseEditor(options) {
+	    function BaseEditor() {
+	        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	
 	        _classCallCheck(this, BaseEditor);
 	
 	        var _this = _possibleConstructorReturn(this, (BaseEditor.__proto__ || Object.getPrototypeOf(BaseEditor)).call(this, options));
 	
 	        _this.options = options;
+	        if (options.label) _this._label = options.label;
+	        if (options.name) _this._name = options.name;
 	        return _this;
 	    }
 	
@@ -1157,7 +1170,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "name",
 	        get: function get() {
-	            return this.el.getAttribute('name');
+	            if (!this._name) {
+	                this._name = this.el.getAttribute('name');
+	            }
+	            return this._name;
 	        }
 	    }, {
 	        key: "value",
@@ -1167,6 +1183,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        set: function set(value) {
 	            if (orange_1.equal(value, this.getValue())) return;
 	            this.setValue(value);
+	        }
+	    }, {
+	        key: "label",
+	        get: function get() {
+	            if (!this._label && this.el) {
+	                this._label = this.el.getAttribute('editor-label');
+	            }
+	            return this._label;
+	        },
+	        set: function set(label) {
+	            this._label = label;
 	        }
 	    }]);
 	
@@ -1214,6 +1241,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.triggerMethod('before:set:value', value);
 	            this.setValue(value);
 	            this.triggerMethod('set:value', value);
+	        }
+	    }, {
+	        key: "label",
+	        get: function get() {
+	            return this._label;
+	        },
+	        set: function set(label) {
+	            this._label = label;
 	        }
 	    }]);
 	
@@ -1268,7 +1303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        keyup: '_onKeyPress',
 	        change: '_onChange'
 	    }
-	}), __metadata('design:paramtypes', [])], Editor);
+	}), __metadata("design:paramtypes", [])], Editor);
 	exports.Editor = Editor;
 
 /***/ },
@@ -1377,7 +1412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var orange_1 = __webpack_require__(4);
 	var Debug = __webpack_require__(12);
 	var debug = Debug('views:form:validator');
-	var validURL = __webpack_require__(15);
+	var validURL = __webpack_require__(16);
 	function get_validations(el) {
 	    var required;
 	    var v = Object.keys(validators).map(function (e) {
@@ -1409,12 +1444,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            debug("'required' validator failed on %s", name);
 	            return new ValidateErrors([new ValidateError(utils_1.template(messages.required, {
 	                name: name,
-	                label: name,
+	                label: editor.label,
 	                value: value,
 	                arg: null
 	            }))]);
 	        }
-	    } else if (value == null || value == "") {
+	    } else if (value === null || value === "" || value === undefined) {
 	        // Do not run validations, when the value is empty
 	        return null;
 	    }
@@ -1425,7 +1460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var e = new ValidateError(utils_1.template(v[i][2], {
 	                name: name,
 	                value: value,
-	                label: name,
+	                label: editor.label,
 	                arg: v[i][1]
 	            }));
 	            errors.push(e);
@@ -1440,8 +1475,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var messages;
 	(function (messages) {
 	    messages.required = "<b><% label %></b> is required";
-	    messages.min = "<b><% label %></b> needs to be minimum <% arg %>";
-	    messages.max = "<b><% label %></b> needs to be maximum <% arg %>";
+	    messages.min = "<b><% label %></b> must be at least <% arg %>";
+	    messages.max = "<b><% label %></b> must be a maximum of <% arg %>";
 	    messages.email = "<b><% label %></b> is not an email";
 	    messages.url = "<b><% label %></b> is not an url";
 	    messages.match = "<b><% label %></b> does not match: <b><%arg%></b>";
@@ -1449,7 +1484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var validators;
 	(function (validators) {
 	    function required(name, form, value, arg) {
-	        return !(value == "" || value == null);
+	        return !(value === "" || value === null || value === undefined);
 	    }
 	    validators.required = required;
 	    function min(name, form, value, arg) {
@@ -1481,7 +1516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function match(name, form, value, arg) {
 	        var field = form.getFieldByName(arg);
 	        if (!field) {
-	            throw new Error('field: ' + arg + ' does not exists');
+	            throw new Error("field: " + arg + " does not exists");
 	        }
 	        var oval = field.editor.value;
 	        return orange_1.equal(value, oval);
@@ -1519,8 +1554,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    messages[validator] = message;
 	}
 	exports.setMessage = setMessage;
-	function registerValidator(name, fn) {
+	function registerValidator(name, fn, message) {
 	    validators[name] = fn;
+	    if (message) {
+	        messages[name] = message;
+	    }
 	}
 	exports.registerValidator = registerValidator;
 	
@@ -1544,6 +1582,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ValidateErrors = function (_Error2) {
 	    _inherits(ValidateErrors, _Error2);
 	
+	    _createClass(ValidateErrors, [{
+	        key: "length",
+	        get: function get() {
+	            return this.errors.length;
+	        }
+	    }]);
+	
 	    function ValidateErrors() {
 	        var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	
@@ -1555,13 +1600,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _this2;
 	    }
 	
-	    _createClass(ValidateErrors, [{
-	        key: 'length',
-	        get: function get() {
-	            return this.errors.length;
-	        }
-	    }]);
-	
 	    return ValidateErrors;
 	}(Error);
 	
@@ -1571,14 +1609,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * This is the web browser implementation of `debug()`.
 	 *
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = __webpack_require__(13);
+	exports = module.exports = __webpack_require__(14);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -1611,13 +1648,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function useColors() {
+	  // NB: In an Electron preload script, document will be defined but not fully
+	  // initialized. Since we know we're in Chrome, we'll just detect this case
+	  // explicitly
+	  if (typeof window !== 'undefined' && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
+	    return true;
+	  }
+	
 	  // is webkit? http://stackoverflow.com/a/16459606/376773
-	  return ('WebkitAppearance' in document.documentElement.style) ||
+	  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
 	    // is firebug? http://stackoverflow.com/a/398120/376773
-	    (window.console && (console.firebug || (console.exception && console.table))) ||
+	    (typeof window !== 'undefined' && window.console && (console.firebug || (console.exception && console.table))) ||
 	    // is firefox >= v31?
 	    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-	    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+	    (navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+	    // double check webkit in userAgent just in case we are in a worker
+	    (navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
 	}
 	
 	/**
@@ -1625,7 +1672,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	exports.formatters.j = function(v) {
-	  return JSON.stringify(v);
+	  try {
+	    return JSON.stringify(v);
+	  } catch (err) {
+	    return '[UnexpectedJSONParseError]: ' + err.message;
+	  }
 	};
 	
 	
@@ -1635,8 +1686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 	
-	function formatArgs() {
-	  var args = arguments;
+	function formatArgs(args) {
 	  var useColors = this.useColors;
 	
 	  args[0] = (useColors ? '%c' : '')
@@ -1646,17 +1696,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    + (useColors ? '%c ' : ' ')
 	    + '+' + exports.humanize(this.diff);
 	
-	  if (!useColors) return args;
+	  if (!useColors) return;
 	
 	  var c = 'color: ' + this.color;
-	  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+	  args.splice(1, 0, c, 'color: inherit')
 	
 	  // the final "%c" is somewhat tricky, because there could be other
 	  // arguments passed either before or after the %c, so we need to
 	  // figure out the correct index to insert the CSS into
 	  var index = 0;
 	  var lastC = 0;
-	  args[0].replace(/%[a-z%]/g, function(match) {
+	  args[0].replace(/%[a-zA-Z%]/g, function(match) {
 	    if ('%%' === match) return;
 	    index++;
 	    if ('%c' === match) {
@@ -1667,7 +1717,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  args.splice(lastC, 0, c);
-	  return args;
 	}
 	
 	/**
@@ -1710,11 +1759,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function load() {
-	  var r;
 	  try {
-	    r = exports.storage.debug;
+	    return exports.storage.debug;
 	  } catch(e) {}
-	  return r;
+	
+	  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+	  if (typeof process !== 'undefined' && 'env' in process) {
+	    return process.env.DEBUG;
+	  }
 	}
 	
 	/**
@@ -1734,15 +1786,187 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 	
-	function localstorage(){
+	function localstorage() {
 	  try {
 	    return window.localStorage;
 	  } catch (e) {}
 	}
-
+	
+	/** Attach to Window*/
+	if (window) {
+	  window.debug = exports;
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
 /* 13 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	(function () {
+	    try {
+	        cachedSetTimeout = setTimeout;
+	    } catch (e) {
+	        cachedSetTimeout = function () {
+	            throw new Error('setTimeout is not defined');
+	        }
+	    }
+	    try {
+	        cachedClearTimeout = clearTimeout;
+	    } catch (e) {
+	        cachedClearTimeout = function () {
+	            throw new Error('clearTimeout is not defined');
+	        }
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+	
+	
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+	
+	
+	
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -1753,12 +1977,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = debug;
+	exports = module.exports = createDebug.debug = createDebug.default = createDebug;
 	exports.coerce = coerce;
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(14);
+	exports.humanize = __webpack_require__(15);
 	
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -1770,16 +1994,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Map of special "%n" handling functions, for the debug "format" argument.
 	 *
-	 * Valid key names are a single, lowercased letter, i.e. "n".
+	 * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
 	 */
 	
 	exports.formatters = {};
-	
-	/**
-	 * Previously assigned color.
-	 */
-	
-	var prevColor = 0;
 	
 	/**
 	 * Previous log timestamp.
@@ -1789,13 +2007,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/**
 	 * Select a color.
-	 *
+	 * @param {String} namespace
 	 * @return {Number}
 	 * @api private
 	 */
 	
-	function selectColor() {
-	  return exports.colors[prevColor++ % exports.colors.length];
+	function selectColor(namespace) {
+	  var hash = 0, i;
+	
+	  for (i in namespace) {
+	    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+	    hash |= 0; // Convert to 32bit integer
+	  }
+	
+	  return exports.colors[Math.abs(hash) % exports.colors.length];
 	}
 	
 	/**
@@ -1806,17 +2031,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 	
-	function debug(namespace) {
+	function createDebug(namespace) {
 	
-	  // define the `disabled` version
-	  function disabled() {
-	  }
-	  disabled.enabled = false;
+	  function debug() {
+	    // disabled?
+	    if (!debug.enabled) return;
 	
-	  // define the `enabled` version
-	  function enabled() {
-	
-	    var self = enabled;
+	    var self = debug;
 	
 	    // set `diff` timestamp
 	    var curr = +new Date();
@@ -1826,22 +2047,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    self.curr = curr;
 	    prevTime = curr;
 	
-	    // add the `color` if not set
-	    if (null == self.useColors) self.useColors = exports.useColors();
-	    if (null == self.color && self.useColors) self.color = selectColor();
-	
-	    var args = Array.prototype.slice.call(arguments);
+	    // turn the `arguments` into a proper Array
+	    var args = new Array(arguments.length);
+	    for (var i = 0; i < args.length; i++) {
+	      args[i] = arguments[i];
+	    }
 	
 	    args[0] = exports.coerce(args[0]);
 	
 	    if ('string' !== typeof args[0]) {
-	      // anything else let's inspect with %o
-	      args = ['%o'].concat(args);
+	      // anything else let's inspect with %O
+	      args.unshift('%O');
 	    }
 	
 	    // apply any `formatters` transformations
 	    var index = 0;
-	    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
+	    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
 	      // if we encounter an escaped % then don't increase the array index
 	      if (match === '%%') return match;
 	      index++;
@@ -1857,19 +2078,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return match;
 	    });
 	
-	    if ('function' === typeof exports.formatArgs) {
-	      args = exports.formatArgs.apply(self, args);
-	    }
-	    var logFn = enabled.log || exports.log || console.log.bind(console);
+	    // apply env-specific formatting (colors, etc.)
+	    exports.formatArgs.call(self, args);
+	
+	    var logFn = debug.log || exports.log || console.log.bind(console);
 	    logFn.apply(self, args);
 	  }
-	  enabled.enabled = true;
 	
-	  var fn = exports.enabled(namespace) ? enabled : disabled;
+	  debug.namespace = namespace;
+	  debug.enabled = exports.enabled(namespace);
+	  debug.useColors = exports.useColors();
+	  debug.color = selectColor(namespace);
 	
-	  fn.namespace = namespace;
+	  // env-specific initialization logic for debug instances
+	  if ('function' === typeof exports.init) {
+	    exports.init(debug);
+	  }
 	
-	  return fn;
+	  return debug;
 	}
 	
 	/**
@@ -1945,18 +2171,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
 	 * Helpers.
 	 */
 	
-	var s = 1000;
-	var m = s * 60;
-	var h = m * 60;
-	var d = h * 24;
-	var y = d * 365.25;
+	var s = 1000
+	var m = s * 60
+	var h = m * 60
+	var d = h * 24
+	var y = d * 365.25
 	
 	/**
 	 * Parse or format the given `val`.
@@ -1967,17 +2193,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {String|Number} val
 	 * @param {Object} options
+	 * @throws {Error} throw an error if val is not a non-empty string or a number
 	 * @return {String|Number}
 	 * @api public
 	 */
 	
-	module.exports = function(val, options){
-	  options = options || {};
-	  if ('string' == typeof val) return parse(val);
-	  return options.long
-	    ? long(val)
-	    : short(val);
-	};
+	module.exports = function (val, options) {
+	  options = options || {}
+	  var type = typeof val
+	  if (type === 'string' && val.length > 0) {
+	    return parse(val)
+	  } else if (type === 'number' && isNaN(val) === false) {
+	    return options.long ?
+				fmtLong(val) :
+				fmtShort(val)
+	  }
+	  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+	}
 	
 	/**
 	 * Parse the given `str` and return milliseconds.
@@ -1988,47 +2220,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function parse(str) {
-	  str = '' + str;
-	  if (str.length > 10000) return;
-	  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
-	  if (!match) return;
-	  var n = parseFloat(match[1]);
-	  var type = (match[2] || 'ms').toLowerCase();
+	  str = String(str)
+	  if (str.length > 10000) {
+	    return
+	  }
+	  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+	  if (!match) {
+	    return
+	  }
+	  var n = parseFloat(match[1])
+	  var type = (match[2] || 'ms').toLowerCase()
 	  switch (type) {
 	    case 'years':
 	    case 'year':
 	    case 'yrs':
 	    case 'yr':
 	    case 'y':
-	      return n * y;
+	      return n * y
 	    case 'days':
 	    case 'day':
 	    case 'd':
-	      return n * d;
+	      return n * d
 	    case 'hours':
 	    case 'hour':
 	    case 'hrs':
 	    case 'hr':
 	    case 'h':
-	      return n * h;
+	      return n * h
 	    case 'minutes':
 	    case 'minute':
 	    case 'mins':
 	    case 'min':
 	    case 'm':
-	      return n * m;
+	      return n * m
 	    case 'seconds':
 	    case 'second':
 	    case 'secs':
 	    case 'sec':
 	    case 's':
-	      return n * s;
+	      return n * s
 	    case 'milliseconds':
 	    case 'millisecond':
 	    case 'msecs':
 	    case 'msec':
 	    case 'ms':
-	      return n;
+	      return n
+	    default:
+	      return undefined
 	  }
 	}
 	
@@ -2040,12 +2278,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 	
-	function short(ms) {
-	  if (ms >= d) return Math.round(ms / d) + 'd';
-	  if (ms >= h) return Math.round(ms / h) + 'h';
-	  if (ms >= m) return Math.round(ms / m) + 'm';
-	  if (ms >= s) return Math.round(ms / s) + 's';
-	  return ms + 'ms';
+	function fmtShort(ms) {
+	  if (ms >= d) {
+	    return Math.round(ms / d) + 'd'
+	  }
+	  if (ms >= h) {
+	    return Math.round(ms / h) + 'h'
+	  }
+	  if (ms >= m) {
+	    return Math.round(ms / m) + 'm'
+	  }
+	  if (ms >= s) {
+	    return Math.round(ms / s) + 's'
+	  }
+	  return ms + 'ms'
 	}
 	
 	/**
@@ -2056,12 +2302,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 	
-	function long(ms) {
-	  return plural(ms, d, 'day')
-	    || plural(ms, h, 'hour')
-	    || plural(ms, m, 'minute')
-	    || plural(ms, s, 'second')
-	    || ms + ' ms';
+	function fmtLong(ms) {
+	  return plural(ms, d, 'day') ||
+	    plural(ms, h, 'hour') ||
+	    plural(ms, m, 'minute') ||
+	    plural(ms, s, 'second') ||
+	    ms + ' ms'
 	}
 	
 	/**
@@ -2069,14 +2315,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function plural(ms, n, name) {
-	  if (ms < n) return;
-	  if (ms < n * 1.5) return Math.floor(ms / n) + ' ' + name;
-	  return Math.ceil(ms / n) + ' ' + name + 's';
+	  if (ms < n) {
+	    return
+	  }
+	  if (ms < n * 1.5) {
+	    return Math.floor(ms / n) + ' ' + name
+	  }
+	  return Math.ceil(ms / n) + ' ' + name + 's'
 	}
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {(function(module) {
@@ -2233,10 +2483,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	})(module);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)(module)))
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -2252,7 +2502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2276,7 +2526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.getEditor = getEditor;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2307,8 +2557,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var orange_1 = __webpack_require__(4);
 	var orange_dom_1 = __webpack_require__(5);
 	var editor_1 = __webpack_require__(9);
-	var define_1 = __webpack_require__(17);
+	var define_1 = __webpack_require__(18);
 	var views_1 = __webpack_require__(2);
+	/**
+	 * Autosize a textarea on input
+	 */
 	
 	var AutoSizer = function () {
 	    function AutoSizer(el) {
@@ -2502,7 +2755,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }
-	}), __metadata('design:paramtypes', [])], TextArea);
+	}), __metadata("design:paramtypes", [])], TextArea);
 
 /***/ }
 /******/ ])

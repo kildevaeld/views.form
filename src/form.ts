@@ -179,6 +179,7 @@ export class Form extends View<HTMLFormElement> {
                     });
 
                 debug('create field: %s', name);
+              
                 field = Field.createField(<HTMLDivElement>fields[i], o);
                 this._fields.push(field);
 

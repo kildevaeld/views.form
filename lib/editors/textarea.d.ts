@@ -1,3 +1,6 @@
+/**
+ * Autosize a textarea on input
+ */
 export declare class AutoSizer {
     el: HTMLElement;
     private _state;
