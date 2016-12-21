@@ -69,6 +69,13 @@ gulp.task('bundle', ['typescript'], () => {
     .pipe(gulp.dest('dist'))
 });
 
+
+gulp.task('bump', () => {
+    gulp.src('package.json')
+    .pipe(bump())
+    .pipe(gulp.dest('.'))
+    })
+
 gulp.task('default', ['bundle', 'uglify']);
 
 gulp.task('watch', () => {
